@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:expandableTextView="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    tools:context="com.gocgod.ProductDetailActivity">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark" />
+
+    <carbon.widget.ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <carbon.widget.LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <carbon.widget.CardView style="@style/carbon_CardView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="5dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="300dp"
+                    android:layout_gravity="center"
+                    android:padding="@dimen/carbon_padding"
+                    android:id="@+id/image"/>
+
+                <TextView
+                    android:id="@+id/name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:textColor="@android:color/black"
+                    android:paddingLeft="@dimen/carbon_padding"/>
+
+                <TextView
+                    android:id="@+id/price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="18sp"
+                    android:textStyle="normal"
+                    android:textColor="@android:color/black"
+                    android:paddingLeft="@dimen/carbon_padding" />
+                </LinearLayout>
+            </carbon.widget.CardView>
+
+
+            <!--<View-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="1dp"-->
+                <!--android:layout_marginTop="@dimen/carbon_marginHalf"-->
+                <!--android:layout_marginBottom="@dimen/carbon_marginHalf"-->
+                <!--android:background="@android:color/darker_gray"/>-->
+
+            <!--<carbon.widget.CardView style="@style/carbon_CardView"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:padding="5dp">-->
+
+                <!--<LinearLayout-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="match_parent"-->
+                    <!--android:orientation="vertical">-->
+
+                    <!--<TextView-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:text="Deskripsi"-->
+                        <!--android:textSize="18sp"-->
+                        <!--android:textStyle="bold"-->
+                        <!--android:textColor="@android:color/black"-->
+                        <!--android:paddingLeft="@dimen/carbon_padding" />-->
+
+                    <!--<com.ms.square.android.expandabletextview.ExpandableTextView-->
+                        <!--android:id="@+id/expand_description"-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:paddingLeft="@dimen/carbon_padding"-->
+                        <!--expandableTextView:maxCollapsedLines="4"-->
+                        <!--expandableTextView:animDuration="200">-->
+                        <!--<TextView-->
+                            <!--android:id="@id/expandable_text"-->
+                            <!--android:layout_width="match_parent"-->
+                            <!--android:layout_height="wrap_content"-->
+                            <!--android:layout_marginLeft="10dp"-->
+                            <!--android:layout_marginRight="10dp"-->
+                            <!--android:textSize="16sp"-->
+                            <!--android:textColor="#666666" />-->
+                        <!--<ImageButton-->
+                            <!--android:id="@id/expand_collapse"-->
+                            <!--android:layout_width="wrap_content"-->
+                            <!--android:layout_height="wrap_content"-->
+                            <!--android:padding="16dp"-->
+                            <!--android:layout_gravity="right|bottom"-->
+                            <!--android:background="@android:color/transparent"/>-->
+                    <!--</com.ms.square.android.expandabletextview.ExpandableTextView>-->
+
+                    <!--&lt;!&ndash;<TextView&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:id="@+id/description"&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:layout_width="wrap_content"&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:textSize="18sp"&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:textStyle="normal"&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:textColor="@android:color/black"&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:paddingLeft="@dimen/carbon_padding" />&ndash;&gt;-->
+
+                <!--</LinearLayout>-->
+            <!--</carbon.widget.CardView>-->
+
+            <!--<TextView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text="Comment"-->
+                <!--android:textSize="18sp"-->
+                <!--android:textStyle="bold"-->
+                <!--android:textColor="@android:color/black"-->
+                <!--android:paddingLeft="@dimen/carbon_padding"-->
+                <!--android:paddingTop="@dimen/carbon_padding"/>-->
+
+            <!--<com.ms.square.android.expandabletextview.ExpandableTextView-->
+                <!--android:id="@+id/expand_text_view"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:paddingLeft="@dimen/carbon_padding"-->
+                <!--expandableTextView:maxCollapsedLines="4"-->
+                <!--expandableTextView:animDuration="200">-->
+                <!--<TextView-->
+                    <!--android:id="@id/expandable_text"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_marginLeft="10dp"-->
+                    <!--android:layout_marginRight="10dp"-->
+                    <!--android:textSize="16sp"-->
+                    <!--android:textColor="#666666" />-->
+                <!--<ImageButton-->
+                    <!--android:id="@id/expand_collapse"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:padding="16dp"-->
+                    <!--android:layout_gravity="right|bottom"-->
+                    <!--android:background="@android:color/transparent"/>-->
+            <!--</com.ms.square.android.expandabletextview.ExpandableTextView>-->
+
+            <android.support.design.widget.TabLayout
+                android:id="@+id/tabs"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:elevation="0dp"
+                style="@style/AppTheme"
+                android:background="@color/carbon_grey_300"/>
+            <android.support.v4.view.ViewPager
+                android:id="@+id/pager"
+                android:layout_height="300dp"
+                android:layout_width="match_parent"
+                android:layout_weight="1">
+            </android.support.v4.view.ViewPager>
+
+
+            <Button
+                android:id="@+id/button_send"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/button_buy"
+                android:layout_gravity="center_horizontal"
+                android:textColor="@android:color/white"
+                android:textStyle="bold"
+                android:textSize="20dp"
+                android:onClick="sendMessage"
+                android:background="@drawable/button_buy_custom"
+                android:layout_margin="20dp"
+                android:paddingRight="50dp"
+                android:paddingLeft="50dp"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"/>
+
+        </carbon.widget.LinearLayout>
+    </carbon.widget.ScrollView>
+</LinearLayout>
