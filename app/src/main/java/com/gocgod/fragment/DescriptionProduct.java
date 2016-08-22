@@ -17,7 +17,8 @@ import butterknife.ButterKnife;
  * A simple {@link Fragment} subclass.
  */
 public class DescriptionProduct extends Fragment {
-    @BindView(R.id.description) TextView description;
+    @BindView(R.id.description)
+    TextView description;
     private String deskripsi;
 
     public DescriptionProduct() {
@@ -44,7 +45,7 @@ public class DescriptionProduct extends Fragment {
 //        Bundle bundle = getActivity().getIntent().getExtras();
         View view = inflater.inflate(R.layout.fragment_description_product, container, false);
         ButterKnife.bind(this, view);
-        deskripsi = getArguments().getString("a");
+        deskripsi = getArguments().getString("description");
         description.setText(deskripsi);
         return view;
     }

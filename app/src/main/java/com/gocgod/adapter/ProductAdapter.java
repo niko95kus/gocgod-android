@@ -1,4 +1,4 @@
-package com.gocgod;
+package com.gocgod.adapter;
 
 import android.content.Context;
 import android.content.Intent;
@@ -7,13 +7,15 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.gocgod.Global;
+import com.gocgod.ProductDetailActivity;
+import com.gocgod.R;
 import com.gocgod.model.ProductData;
 import com.squareup.picasso.Picasso;
 
@@ -32,7 +34,6 @@ import carbon.widget.CardView;
 public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHolder> {
     private Context context;
     private List<ProductData> productData;
-//    private final String imgUrl = Global.IP + "gocgod/public/assets/images/product/";
 
     public ProductAdapter(Context context, List<ProductData> productData) {
         this.context = context;
@@ -48,11 +49,6 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
     @Override
     public void onBindViewHolder(ViewHolder holder, int i) {
         ProductData data = productData.get(i);
-        //Picasso.with(context).load(R.drawable.guava).fit().into(viewHolder.image);
-
-        /*Picasso.with(holder.image.getContext()).load(productAll.getPicture()).resize(600,650).into(holder.image);
-        holder.name.setText(productAll.getVarianName());
-        holder.price.setText(productAll.getPrice());*/
 
         //untuk format rupiah
         DecimalFormat kursIndonesia = (DecimalFormat) DecimalFormat.getCurrencyInstance();

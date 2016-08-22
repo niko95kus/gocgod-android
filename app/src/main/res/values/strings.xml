@@ -7,8 +7,8 @@
     <string name="faq">FAQ</string>
     <string name="customerOrder">Pesanan Pelanggan</string>
 
-    <string name="tab_1">Kamu ada di tab 1</string>
-    <string name="tab_2">Kamu ada di tab 2</string>
-
     <string name="button_buy">BELI</string>
+
+    <string name="lihat_selengkapnya">Lihat Selengkapnya</string>
+    <string name="empty_testimoni">Belum ada ulasan untuk produk ini :(</string>
 </resources>
