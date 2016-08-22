@@ -27,6 +27,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/btnTestimoni"
         app:carbon_cornerRadius="2dp"
+        android:layout_marginBottom="@dimen/carbon_marginHalf"
         android:text="@string/lihat_selengkapnya"
         android:textAlignment="center"
         android:gravity="center"
