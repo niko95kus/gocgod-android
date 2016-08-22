@@ -1,35 +1,25 @@
 package com.gocgod;
 
-import android.content.Context;
-import android.content.Intent;
 import android.graphics.Typeface;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.gocgod.adapter.DescriptionTestimonialAdapter;
-import com.gocgod.fragment.DescriptionProduct;
 import com.gocgod.model.ProductData;
+import com.gocgod.model.ProductTestimonial;
 import com.gocgod.model.ResponseSuccess;
-import com.google.android.gms.appindexing.Action;
-import com.google.android.gms.appindexing.AppIndex;
-import com.google.android.gms.common.api.GoogleApiClient;
 import com.ms.square.android.expandabletextview.ExpandableTextView;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -38,6 +28,7 @@ import java.text.DecimalFormatSymbols;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -49,20 +40,24 @@ public class ProductDetailActivity extends AppCompatActivity {
     TextView name;
     @BindView(R.id.price)
     TextView price;
+    //@BindView(R.id.pager) carbon.widget.ViewPager pager;
+    @BindView(R.id.pager)
+    WrapContentViewPager pager;
+    @BindView(R.id.tabs)
+    TabLayout tabs;
 //    @BindView(R.id.expand_text_view)
 //    ExpandableTextView comment;
 
-    private ViewPager pager;
-    private TabLayout tabs;
     private FragmentManager fragmentManager;
 //    private ProductData data;
     private String deskripsi;
+    private ArrayList<ProductTestimonial> productTestimonial = new ArrayList<ProductTestimonial>();
 //    private Context context;
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
      */
-    private GoogleApiClient client2;
+    //private GoogleApiClient client2;
 
 //    public ProductDetailActivity(Context context){
 //        this.context = context;
@@ -84,13 +79,11 @@ public class ProductDetailActivity extends AppCompatActivity {
         actionBar.setTitle("Detail Produk");
         actionBar.setDisplayHomeAsUpEnabled(true);
 
-        pager = (ViewPager) findViewById(R.id.pager);
-        tabs = (TabLayout) findViewById(R.id.tabs);
-
         //Manimpilasi sedikit untuk set TextColor pada Tab
 //        tabs.setTabTextColors(getResources().getColor(R.color.colorPrimary),
 //                getResources().getColor(android.R.color.white));
 
+        //pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener());
 
         //set tab ke ViewPager
         tabs.setupWithViewPager(pager);
@@ -99,7 +92,7 @@ public class ProductDetailActivity extends AppCompatActivity {
         tabs.setTabGravity(TabLayout.GRAVITY_FILL);
 
         if (bundle != null) {
-            getData(Integer.toString(bundle.getInt("productId")));
+            getProductData(Integer.toString(bundle.getInt("productId")));
             //set object adapter kedalam ViewPager
 //            Log.d("lapar", "a");
 //            Log.d("maumakan", "lllll");
@@ -109,10 +102,6 @@ public class ProductDetailActivity extends AppCompatActivity {
             //pager.setAdapter(new DescriptionTestimonialAdapter(getSupportFragmentManager(),
             //        deskripsi));
         }
-
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        client2 = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }
 
     @Override
@@ -123,11 +112,10 @@ public class ProductDetailActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void getData(String productId) {
+    public void getProductData(final String productId) {
         ApiService client = ServiceGenerator.createService(ApiService.class);
-//        Map<String, String> data = new HashMap<>();
-//        data.put("page", String.valueOf(page));
 
+        //Ambil data produk
         Call<ResponseSuccess> call = client.getProductDetail(productId);
         call.enqueue(new Callback<ResponseSuccess>() {
             @Override
@@ -135,7 +123,7 @@ public class ProductDetailActivity extends AppCompatActivity {
                 ResponseSuccess result = response.body();
 
                 ProductData data = result.getSuccess().getData().getProductData();
-                Log.d("aurel", data.getDescription().replace("\n", "\\n").replace("\r", "\\r"));
+                //Log.d("aurel", data.getDescription().replace("\n", "\\n").replace("\r", "\\r"));
                 //bentuk huruf
                 Typeface fontTitle = Typeface.createFromAsset(getAssets(), "fonts/nexablack.ttf");
                 Typeface fontDescription = Typeface.createFromAsset(getAssets(), "fonts/mm.ttf");
@@ -160,10 +148,10 @@ public class ProductDetailActivity extends AppCompatActivity {
                     double harga = Double.parseDouble(data.getPrice());
                     price.setText(kursIndonesia.format(harga));
 
-                    deskripsi = data.getDescription().replace("\n", "\\n").replace("\r", "\\r");
+                    deskripsi = data.getDescription().replace("\r", "");
 
-                    pager.setAdapter(new DescriptionTestimonialAdapter(getSupportFragmentManager(),
-                            deskripsi));
+                    getProductTestimonial(productId);
+
 ////                    Fragment descriptionFragment = new DescriptionProduct();
 //                    Intent intent = new Intent(ProductDetailActivity.this, DescriptionTestimonialAdapter.class);
 //                    Bundle bundle = new Bundle();
@@ -193,46 +181,42 @@ public class ProductDetailActivity extends AppCompatActivity {
 
             }
         });
-//        call.enqueue(new Callback<ResponseSuccess>() {
     }
-//
-//    @Override
-//    public void onStart() {
-//        super.onStart();
-//
-//        // ATTENTION: This was auto-generated to implement the App Indexing API.
-//        // See https://g.co/AppIndexing/AndroidStudio for more information.
-//        client2.connect();
-//        Action viewAction = Action.newAction(
-//                Action.TYPE_VIEW, // TODO: choose an action type.
-//                "ProductDetail Page", // TODO: Define a title for the content shown.
-//                // TODO: If you have web page content that matches this app activity's content,
-//                // make sure this auto-generated web page URL is correct.
-//                // Otherwise, set the URL to null.
-//                Uri.parse("http://host/path"),
-//                // TODO: Make sure this auto-generated app URL is correct.
-//                Uri.parse("android-app://com.gocgod/http/host/path")
-//        );
-//        AppIndex.AppIndexApi.start(client2, viewAction);
-//    }
-//
-//    @Override
-//    public void onStop() {
-//        super.onStop();
-//
-//        // ATTENTION: This was auto-generated to implement the App Indexing API.
-//        // See https://g.co/AppIndexing/AndroidStudio for more information.
-//        Action viewAction = Action.newAction(
-//                Action.TYPE_VIEW, // TODO: choose an action type.
-//                "ProductDetail Page", // TODO: Define a title for the content shown.
-//                // TODO: If you have web page content that matches this app activity's content,
-//                // make sure this auto-generated web page URL is correct.
-//                // Otherwise, set the URL to null.
-//                Uri.parse("http://host/path"),
-//                // TODO: Make sure this auto-generated app URL is correct.
-//                Uri.parse("android-app://com.gocgod/http/host/path")
-//        );
-//        AppIndex.AppIndexApi.end(client2, viewAction);
-//        client2.disconnect();
-//    }
+
+    public void getProductTestimonial(final String productId)
+    {
+        ApiService client = ServiceGenerator.createService(ApiService.class);
+        Map<String, String> data = new HashMap<>();
+        data.put("page", String.valueOf(1));
+
+        //Ambil data testimoni produk
+        Call<ResponseSuccess> callProductTestimonial = client.getProductTestimonial(productId, data);
+        callProductTestimonial.enqueue(new Callback<ResponseSuccess>() {
+            @Override
+            public void onResponse(Call<ResponseSuccess> call, Response<ResponseSuccess> response) {
+                ResponseSuccess result = response.body();
+
+                int total = result.getSuccess().getData().getProductTestimonialPagination().getTotal();
+
+                if (total > 0) {
+                    productTestimonial.addAll(result.getSuccess().getData().getProductTestimonialPagination().getData());
+
+                    //pager.setAdapter(new DescriptionTestimonialAdapter(getSupportFragmentManager(),deskripsi, productTestimonial, true, productId));
+                }
+                //
+                pager.setAdapter(new DescriptionTestimonialAdapter(getSupportFragmentManager(),deskripsi, productTestimonial, productId));
+            }
+
+            @Override
+            public void onFailure(Call<ResponseSuccess> call, Throwable t) {
+
+            }
+        });
+    }
+
+    @OnClick()
+    public void a()
+    {
+
+    }
 }

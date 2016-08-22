@@ -1,13 +1,36 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<carbon.widget.LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="com.gocgod.fragment.TestimonialProduct">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <carbon.widget.RecyclerView
+        android:id="@+id/recyclerview"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/tab_2" />
+        android:layout_height="wrap_content">
+    </carbon.widget.RecyclerView>
 
-</FrameLayout>
+    <carbon.widget.TextView
+        android:id="@+id/emptyTestimoni"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        android:textAlignment="center"
+        android:gravity="center"
+        android:text="@string/empty_testimoni"/>
+
+    <carbon.widget.Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/btnTestimoni"
+        app:carbon_cornerRadius="2dp"
+        android:text="@string/lihat_selengkapnya"
+        android:textAlignment="center"
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:background="@color/colorAccent"/>
+
+</carbon.widget.LinearLayout>
