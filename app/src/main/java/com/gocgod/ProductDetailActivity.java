@@ -45,6 +45,8 @@ public class ProductDetailActivity extends AppCompatActivity {
     WrapContentViewPager pager;
     @BindView(R.id.tabs)
     TabLayout tabs;
+    @BindView(R.id.qty)
+    carbon.widget.EditText qty;
 //    @BindView(R.id.expand_text_view)
 //    ExpandableTextView comment;
 
@@ -214,9 +216,19 @@ public class ProductDetailActivity extends AppCompatActivity {
         });
     }
 
-    @OnClick()
-    public void a()
+    @OnClick(R.id.increase)
+    public void increase()
     {
+        int quantity = Integer.parseInt(qty.getText().toString());
+        quantity++;
+        qty.setText(String.valueOf(quantity));
+    }
 
+    @OnClick(R.id.decrease)
+    public void decrease()
+    {
+        int quantity = Integer.parseInt(qty.getText().toString());
+        quantity--;
+        qty.setText(String.valueOf(quantity));
     }
 }

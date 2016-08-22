@@ -78,7 +78,7 @@ public class ProductTestimonialAdapter extends RecyclerView.Adapter<ProductTesti
             card.setClickable(true);
             card.setBackgroundColor(Color.WHITE);
 
-            RippleDrawable rippleDrawable = new RippleDrawableFroyo(ColorStateList.valueOf(0x42ff0000), null, RippleDrawable.Style.Over);
+            RippleDrawable rippleDrawable = new RippleDrawableFroyo(ColorStateList.valueOf(Color.rgb(0, 204, 255)), null, RippleDrawable.Style.Over);
             rippleDrawable.setCallback(card);
             rippleDrawable.setHotspotEnabled(true);
             card.setRippleDrawable(rippleDrawable);
