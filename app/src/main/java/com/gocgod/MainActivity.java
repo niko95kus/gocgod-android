@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
+import com.gocgod.adapter.ProductAdapter;
 import com.gocgod.model.ProductData;
 import com.gocgod.model.ResponseSuccess;
 import com.mikepenz.google_material_typeface_library.GoogleMaterial;
@@ -152,7 +153,7 @@ public class MainActivity extends AppCompatActivity {
                     int curSize = adapter.getItemCount();
                     //Log.d("SHOP COLLECTION", "Notify :" + curSize + " Item Size: " + productData.size());
                     adapter.notifyItemRangeInserted(curSize, productData.size() - 1);
-                    //recyclerView.invalidate();
+                    recyclerView.invalidate();
                 } else {
                     //emptyView.setVisibility(View.VISIBLE);
                     recyclerView.setVisibility(View.GONE);

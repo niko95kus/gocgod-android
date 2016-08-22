@@ -18,4 +18,7 @@ public interface ApiService {
 
     @GET("menu_detail/{productId}")
     Call<ResponseSuccess> getProductDetail(@Path("productId") String productId);
+
+    @GET("testimonial_data/{productId}")
+    Call<ResponseSuccess> getProductTestimonial(@Path("productId") String productId, @QueryMap Map<String, String> options);
 }
