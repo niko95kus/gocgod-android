@@ -53,7 +53,6 @@ public class MainActivity extends AppCompatActivity {
 
         PrimaryDrawerItem product = new PrimaryDrawerItem().withName(R.string.product)
                 .withIdentifier(1)
-                .withSelectable(false)
                 .withIcon(GoogleMaterial.Icon.gmd_free_breakfast);
         PrimaryDrawerItem howtobuy = new PrimaryDrawerItem().withName(R.string.howToBuy)
                 .withIdentifier(2)
@@ -61,7 +60,6 @@ public class MainActivity extends AppCompatActivity {
                 .withIcon(GoogleMaterial.Icon.gmd_info);
         PrimaryDrawerItem faq = new PrimaryDrawerItem().withName(R.string.faq)
                 .withIdentifier(3)
-                .withSelectable(false)
                 .withIcon(GoogleMaterial.Icon.gmd_help);
 
 
@@ -98,7 +96,12 @@ public class MainActivity extends AppCompatActivity {
                         {
                             Intent intent = null;
 
-                            if(drawerItem.getIdentifier() == 1);
+                            if(drawerItem.getIdentifier() == 1){
+                                startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                            }
+                            else if(drawerItem.getIdentifier() == 3){
+                                startActivity(new Intent(getApplicationContext(), com.gocgod.Faq.class));
+                            }
                         }
                         return false;
                     }
