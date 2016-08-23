@@ -29,6 +29,7 @@
 
         <activity android:name=".ProductTestimonialActivity" />
         <activity android:name=".FaqActivity"/>
+        <activity android:name=".BaseActivity"></activity>
     </application>
 
 </manifest>

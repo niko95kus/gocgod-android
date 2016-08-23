@@ -33,7 +33,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity {
     @BindView(R.id.recyclerview) RecyclerView recyclerView;
 
     List<ProductData> productData = new ArrayList<ProductData>();
@@ -45,13 +45,13 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        /*Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setDisplayHomeAsUpEnabled(true);*/
 
 
-        PrimaryDrawerItem product = new PrimaryDrawerItem().withName(R.string.product)
+        /*PrimaryDrawerItem product = new PrimaryDrawerItem().withName(R.string.product)
                 .withIdentifier(1)
                 .withIcon(GoogleMaterial.Icon.gmd_free_breakfast);
         PrimaryDrawerItem howtobuy = new PrimaryDrawerItem().withName(R.string.howToBuy)
@@ -106,7 +106,10 @@ public class MainActivity extends AppCompatActivity {
                         return false;
                     }
                 })
-                .build();
+                .build();*/
+
+        buildToolbar();
+        buildDrawer(savedInstanceState);
 
         recyclerView.setHasFixedSize(true);
         /*RecyclerView.LayoutManager layoutManager = new GridLayoutManager(this, 2);
