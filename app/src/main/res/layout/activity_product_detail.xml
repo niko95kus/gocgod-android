@@ -63,32 +63,52 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/carbon_marginHalf"
+                android:weightSum="1"
                 android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".4">
+                </LinearLayout>
 
                 <carbon.widget.Button
                     android:id="@+id/decrease"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_weight="1"
-                    android:text="-" />
+                    android:background="@color/grey"
+                    android:layout_margin="@dimen/carbon_margin"
+                    android:textSize="20sp"
+                    android:text="@string/minus" />
 
                 <carbon.widget.EditText
                     android:id="@+id/qty"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="0"
+                    android:layout_gravity="center"
+                    android:text="1"
                     android:textStyle="bold"
-                    android:textSize="50dp"
-                    android:layout_weight="1" />
+                    android:textSize="18sp"
+                    android:layout_weight=".2"
+                    android:inputType="number"/>
 
                 <carbon.widget.Button
                     android:id="@+id/increase"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="+" />
+                    android:layout_gravity="center"
+                    android:background="@color/grey"
+                    android:layout_margin="@dimen/carbon_margin"
+                    android:textSize="20sp"
+                    android:text="@string/plus" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".4">
+                </LinearLayout>
 
             </LinearLayout>
 
@@ -100,11 +120,11 @@
                 android:layout_gravity="center"
                 android:textColor="@android:color/white"
                 android:textStyle="bold"
-                android:textSize="20dp"
+                android:textSize="20sp"
                 android:background="@drawable/button_buy_custom"
                 android:layout_margin="20dp"
-                android:paddingRight="50dp"
-                android:paddingLeft="50dp"
+                android:paddingRight="75dp"
+                android:paddingLeft="75dp"
                 android:paddingTop="10dp"
                 android:paddingBottom="10dp"/>
 
