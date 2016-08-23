@@ -197,7 +197,6 @@ public class ProductDetailActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<ResponseSuccess> call, Response<ResponseSuccess> response) {
                 ResponseSuccess result = response.body();
-
                 int total = result.getSuccess().getData().getProductTestimonialPagination().getTotal();
 
                 if (total > 0) {
@@ -206,6 +205,7 @@ public class ProductDetailActivity extends AppCompatActivity {
                     //pager.setAdapter(new DescriptionTestimonialAdapter(getSupportFragmentManager(),deskripsi, productTestimonial, true, productId));
                 }
                 //
+
                 pager.setAdapter(new DescriptionTestimonialAdapter(getSupportFragmentManager(),deskripsi, productTestimonial, productId));
             }
 
