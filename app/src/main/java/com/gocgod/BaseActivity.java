@@ -88,7 +88,7 @@ public abstract class BaseActivity extends AppCompatActivity {
                                 finish();
                             }
                             else if(drawerItem.getIdentifier() == 3){
-                                startActivity(new Intent(getApplicationContext(), com.gocgod.Faq.class));
+                                startActivity(new Intent(getApplicationContext(), FaqActivity.class));
                                 finish();
                             }
                         }
