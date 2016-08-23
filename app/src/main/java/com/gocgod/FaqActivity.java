@@ -5,9 +5,10 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.webkit.WebView;
 
-public class Faq extends AppCompatActivity {
+public class FaqActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,6 +22,14 @@ public class Faq extends AppCompatActivity {
         actionBar.setDisplayHomeAsUpEnabled(true);
 
         WebView webView_faq = (WebView) findViewById(R.id.webview_faq);
-        webView_faq.loadUrl("http://gocgod.com/faq");
+        webView_faq.loadUrl(Global.IP + "gocgod/public/faq_data");
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

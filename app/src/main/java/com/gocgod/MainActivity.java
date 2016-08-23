@@ -100,7 +100,7 @@ public class MainActivity extends BaseActivity {
                                 startActivity(new Intent(getApplicationContext(), MainActivity.class));
                             }
                             else if(drawerItem.getIdentifier() == 3){
-                                startActivity(new Intent(getApplicationContext(), com.gocgod.Faq.class));
+                                startActivity(new Intent(getApplicationContext(), com.gocgod.FaqActivity.class));
                             }
                         }
                         return false;
