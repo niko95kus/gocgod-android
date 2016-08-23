@@ -11,4 +11,6 @@
 
     <string name="lihat_selengkapnya">Lihat Selengkapnya</string>
     <string name="empty_testimoni">Belum ada ulasan untuk produk ini :(</string>
+    <string name="plus">+</string>
+    <string name="minus">-</string>
 </resources>
