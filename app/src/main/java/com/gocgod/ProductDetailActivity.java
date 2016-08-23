@@ -29,6 +29,7 @@ import java.text.DecimalFormatSymbols;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.OnFocusChange;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -228,7 +229,11 @@ public class ProductDetailActivity extends AppCompatActivity {
     public void decrease()
     {
         int quantity = Integer.parseInt(qty.getText().toString());
-        quantity--;
-        qty.setText(String.valueOf(quantity));
+        if(quantity <= 1)
+            qty.setText(String.valueOf(1));
+        else {
+            quantity--;
+            qty.setText(String.valueOf(quantity));
+        }
     }
 }
