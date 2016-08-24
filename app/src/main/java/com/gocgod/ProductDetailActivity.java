@@ -34,7 +34,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ProductDetailActivity extends AppCompatActivity {
+public class ProductDetailActivity extends BaseActivity {
     @BindView(R.id.image)
     ImageView image;
     @BindView(R.id.name)
@@ -76,10 +76,10 @@ public class ProductDetailActivity extends AppCompatActivity {
 
         Bundle bundle = getIntent().getExtras();
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setTitle("Detail Produk");
+        buildToolbar("Detail Produk");
+        buildDrawer(savedInstanceState, toolbar);
+
+        drawer.getActionBarDrawerToggle().setDrawerIndicatorEnabled(false);
         actionBar.setDisplayHomeAsUpEnabled(true);
 
         //Manimpilasi sedikit untuk set TextColor pada Tab
