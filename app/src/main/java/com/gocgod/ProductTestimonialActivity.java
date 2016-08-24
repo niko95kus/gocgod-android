@@ -23,7 +23,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ProductTestimonialActivity extends AppCompatActivity {
+public class ProductTestimonialActivity extends BaseActivity {
     @BindView(R.id.recyclerview)
     carbon.widget.RecyclerView recyclerView;
 
@@ -39,10 +39,9 @@ public class ProductTestimonialActivity extends AppCompatActivity {
 
         Bundle bundle = getIntent().getExtras();
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setTitle("Ulasan Produk");
+        buildToolbar("Ulasan Produk");
+        buildDrawer(savedInstanceState, toolbar);
+        drawer.getActionBarDrawerToggle().setDrawerIndicatorEnabled(false);
         actionBar.setDisplayHomeAsUpEnabled(true);
 
         if(bundle != null)

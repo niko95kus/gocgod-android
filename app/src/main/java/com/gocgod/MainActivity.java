@@ -108,8 +108,10 @@ public class MainActivity extends BaseActivity {
                 })
                 .build();*/
 
-        buildToolbar();
-        buildDrawer(savedInstanceState);
+        buildToolbar(null);
+        buildDrawer(savedInstanceState, toolbar);
+        /*getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        drawer.getActionBarDrawerToggle().setDrawerIndicatorEnabled(true);*/
 
         recyclerView.setHasFixedSize(true);
         /*RecyclerView.LayoutManager layoutManager = new GridLayoutManager(this, 2);

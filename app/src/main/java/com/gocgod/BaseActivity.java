@@ -20,6 +20,7 @@ import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 public abstract class BaseActivity extends AppCompatActivity {
     protected Drawer drawer;
     protected Toolbar toolbar;
+    protected ActionBar actionBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,15 +31,16 @@ public abstract class BaseActivity extends AppCompatActivity {
         buildDrawer(savedInstanceState);*/
     }
 
-    public void buildToolbar()
+    public void buildToolbar(String title)
     {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar = getSupportActionBar();
+        if(title != null)
+            actionBar.setTitle(title);
     }
 
-    public void buildDrawer(Bundle savedInstanceState)
+    public void buildDrawer(Bundle savedInstanceState, Toolbar toolbar)
     {
         PrimaryDrawerItem product = new PrimaryDrawerItem().withName(R.string.product)
                 .withIdentifier(1)
@@ -71,6 +73,7 @@ public abstract class BaseActivity extends AppCompatActivity {
                 .withSelectedItem(-1)
                 .withActivity(this)
                 .withToolbar(toolbar)
+                .withActionBarDrawerToggle(true)
                 .withAccountHeader(header)
                 .addDrawerItems(
                         product,
@@ -93,6 +96,16 @@ public abstract class BaseActivity extends AppCompatActivity {
                             }
                         }
                         return false;
+                    }
+                })
+                .withOnDrawerNavigationListener(new Drawer.OnDrawerNavigationListener() {
+                    @Override
+                    public boolean onNavigationClickListener(View clickedView) {
+                        //this method is only called if the Arrow icon is shown. The hamburger is automatically managed by the MaterialDrawer
+                        //if the back arrow is shown. close the activity
+                        finish();
+                        //return true if we have consumed the event
+                        return true;
                     }
                 })
                 .build();
