@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<carbon.widget.RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".MainActivity">
+
+    <carbon.widget.RelativeLayout
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark" />
+    </carbon.widget.RelativeLayout>
+
+    <carbon.widget.RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/header">
+
+        <carbon.widget.RecyclerView
+            android:id="@+id/recyclerview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        </carbon.widget.RecyclerView>
+    </carbon.widget.RelativeLayout>
+
+    <carbon.widget.RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="bottom"
+        android:layout_gravity="center"
+        android:background="@color/colorPrimary"
+        android:paddingTop="@dimen/carbon_paddingHalf"
+        android:layout_alignParentBottom="true">
+
+        <carbon.widget.LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <carbon.widget.LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:id="@+id/layoutOngkosKirim">
+
+                <carbon.widget.TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:paddingLeft="@dimen/carbon_paddingHalf"
+                    android:textColor="@color/carbon_white"
+                    android:text="@string/ongkos_kirim"/>
+
+                <carbon.widget.TextView
+                    android:id="@+id/ongkosKirim"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:paddingLeft="@dimen/carbon_paddingHalf"
+                    android:textColor="@color/carbon_white"/>
+
+            </carbon.widget.LinearLayout>
+
+            <carbon.widget.LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <carbon.widget.TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:padding="@dimen/carbon_paddingHalf"
+                    android:textColor="@color/carbon_white"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:text="@string/total"
+                    android:layout_weight="1"/>
+
+                <carbon.widget.TextView
+                    android:id="@+id/total"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:padding="@dimen/carbon_paddingHalf"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/carbon_white"
+                    android:layout_weight="1"/>
+
+                <Button
+                    android:id="@+id/btnCheckOut"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="right"
+                    android:background="@color/colorPrimary"
+                    android:textColor="@color/carbon_red_a700"
+                    android:text="@string/checkout"/>
+
+            </carbon.widget.LinearLayout>
+
+        </carbon.widget.LinearLayout>
+
+    </carbon.widget.RelativeLayout>
+
+</carbon.widget.RelativeLayout>

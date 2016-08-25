@@ -6,11 +6,18 @@
     <string name="howToBuy">Cara Berbelanja</string>
     <string name="faq">FAQ</string>
     <string name="customerOrder">Pesanan Pelanggan</string>
-
     <string name="button_buy">BELI</string>
-
     <string name="lihat_selengkapnya">Lihat Selengkapnya</string>
     <string name="empty_testimoni">Belum ada ulasan untuk produk ini :(</string>
     <string name="plus">+</string>
     <string name="minus">-</string>
+
+    //CART
+    <string name="minimum_qty">Anda minimal harus membeli 1 produk</string>
+    <string name="added_to_cart">Berhasil ditambah</string>
+    <string name="quantity">Quantity</string>
+    <string name="ongkos_kirim">Ongkos Kirim</string>
+    <string name="total">Total</string>
+    <string name="checkout">CHECK OUT</string>
+
 </resources>

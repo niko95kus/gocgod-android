@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:expandableTextView="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:expandableTextView="http://schemas.android.com/apk/res-auto"
     tools:context="com.gocgod.ProductDetailActivity"
     android:orientation="vertical">
 
@@ -77,7 +78,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:background="@color/grey"
+                    android:background="@color/carbon_grey_600"
                     android:layout_margin="@dimen/carbon_margin"
                     android:textSize="20sp"
                     android:text="@string/minus" />
@@ -99,7 +100,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:background="@color/grey"
+                    android:background="@color/carbon_grey_600"
                     android:layout_margin="@dimen/carbon_margin"
                     android:textSize="20sp"
                     android:text="@string/plus" />
