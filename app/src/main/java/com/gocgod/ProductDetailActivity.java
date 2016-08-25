@@ -1,7 +1,11 @@
 package com.gocgod;
 
+import android.app.Activity;
+import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBar;
@@ -9,16 +13,24 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.gocgod.adapter.DescriptionTestimonialAdapter;
+import com.gocgod.cart.model.Cart;
+import com.gocgod.cart.util.CartHelper;
+import com.gocgod.model.Product;
 import com.gocgod.model.ProductData;
 import com.gocgod.model.ProductTestimonial;
 import com.gocgod.model.ResponseSuccess;
 import com.ms.square.android.expandabletextview.ExpandableTextView;
 import com.squareup.picasso.Picasso;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -34,7 +46,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ProductDetailActivity extends AppCompatActivity {
+public class ProductDetailActivity extends BaseActivity {
     @BindView(R.id.image)
     ImageView image;
     @BindView(R.id.name)
@@ -48,12 +60,15 @@ public class ProductDetailActivity extends AppCompatActivity {
     TabLayout tabs;
     @BindView(R.id.qty)
     carbon.widget.EditText qty;
+    @BindView(R.id.layout)
+    LinearLayout layout;
 //    @BindView(R.id.expand_text_view)
 //    ExpandableTextView comment;
 
     private FragmentManager fragmentManager;
 //    private ProductData data;
     private String deskripsi;
+    private ProductData data;
     private ArrayList<ProductTestimonial> productTestimonial = new ArrayList<ProductTestimonial>();
 //    private Context context;
     /**
@@ -72,14 +87,16 @@ public class ProductDetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_product_detail);
         ButterKnife.bind(this);
 
+
+
         fragmentManager = getSupportFragmentManager();
 
         Bundle bundle = getIntent().getExtras();
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setTitle("Detail Produk");
+        buildToolbar("Detail Produk");
+        buildDrawer(savedInstanceState, toolbar);
+
+        drawer.getActionBarDrawerToggle().setDrawerIndicatorEnabled(false);
         actionBar.setDisplayHomeAsUpEnabled(true);
 
         //Manimpilasi sedikit untuk set TextColor pada Tab
@@ -125,7 +142,7 @@ public class ProductDetailActivity extends AppCompatActivity {
             public void onResponse(Call<ResponseSuccess> call, Response<ResponseSuccess> response) {
                 ResponseSuccess result = response.body();
 
-                ProductData data = result.getSuccess().getData().getProductData();
+                data = result.getSuccess().getData().getProductData();
                 //Log.d("aurel", data.getDescription().replace("\n", "\\n").replace("\r", "\\r"));
                 //bentuk huruf
                 Typeface fontTitle = Typeface.createFromAsset(getAssets(), "fonts/nexablack.ttf");
@@ -217,23 +234,110 @@ public class ProductDetailActivity extends AppCompatActivity {
         });
     }
 
+    public void showSnackBar(String message, int messageColor)
+    {
+        Snackbar snackbar = Snackbar
+                .make(layout, message, Snackbar.LENGTH_LONG);
+
+        // Changing action button text color
+        View sbView = snackbar.getView();
+        TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
+        textView.setTextColor(messageColor);
+
+        snackbar.show();
+    }
+
+    @OnClick(R.id.btn_add_to_cart)
+    public void addToCart()
+    {
+        hideSoftKeyboard(this);
+        String tmp = qty.getText().toString();
+        if(tmp.equals(""))
+        {
+            qty.setText(String.valueOf(1));
+            String message = getResources().getString(R.string.minimum_qty);
+            showSnackBar(message, Color.WHITE);
+            return;
+        }
+        else {
+            int quantity = Integer.parseInt(tmp);
+            if (quantity < 1) {
+                qty.setText(String.valueOf(1));
+                String message = getResources().getString(R.string.minimum_qty);
+                showSnackBar(message, Color.WHITE);
+                return;
+            }
+        }
+
+        //kalo quantity >= 1, masukkin cart
+        Product product = new Product(data.getVarianId(),data.getVarianName(), BigDecimal.valueOf(Integer.valueOf(data.getPrice())), data.getCategoryName(), data.getPicture());
+        int quantity = Integer.parseInt(tmp);
+
+        Cart cart = CartHelper.getCart();
+        cart.add(product, quantity);
+        String message = getResources().getString(R.string.added_to_cart);
+
+        Snackbar snackbar = Snackbar
+                .make(layout, message, Snackbar.LENGTH_LONG)
+                .setAction("CART", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        startActivity(new Intent(ProductDetailActivity.this, CartActivity.class));
+                    }
+                });
+        // Changing message text color
+        snackbar.setActionTextColor(Color.RED);
+
+        // Changing action button text color
+        View sbView = snackbar.getView();
+        TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
+        textView.setTextColor(Color.WHITE);
+
+        snackbar.show();
+        //Log.d("halo", String.valueOf(cart.getTotalPrice()));
+    }
+
     @OnClick(R.id.increase)
     public void increase()
     {
-        int quantity = Integer.parseInt(qty.getText().toString());
-        quantity++;
-        qty.setText(String.valueOf(quantity));
+        hideSoftKeyboard(this);
+        String tmp = qty.getText().toString();
+        if(tmp.equals("")) {
+            qty.setText(String.valueOf(1));
+        }
+        else
+        {
+            int quantity = Integer.parseInt(tmp);
+            quantity++;
+            qty.setText(String.valueOf(quantity));
+        }
     }
 
     @OnClick(R.id.decrease)
     public void decrease()
     {
-        int quantity = Integer.parseInt(qty.getText().toString());
-        if(quantity <= 1)
+        hideSoftKeyboard(this);
+        String tmp = qty.getText().toString();
+        if(tmp.equals("")) {
             qty.setText(String.valueOf(1));
-        else {
-            quantity--;
-            qty.setText(String.valueOf(quantity));
         }
+        else
+        {
+            int quantity = Integer.parseInt(tmp);
+            if(quantity <= 1)
+                qty.setText(String.valueOf(1));
+            else {
+                quantity--;
+                qty.setText(String.valueOf(quantity));
+            }
+        }
+    }
+
+    public static void hideSoftKeyboard(Activity activity) {
+        InputMethodManager inputMethodManager =
+                (InputMethodManager) activity.getSystemService(
+                        Activity.INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(
+                activity.getCurrentFocus().getWindowToken(), 0);
     }
 }

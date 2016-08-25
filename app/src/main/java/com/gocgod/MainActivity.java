@@ -1,25 +1,13 @@
 package com.gocgod;
 
-import android.content.Intent;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 
 import com.gocgod.adapter.ProductAdapter;
 import com.gocgod.model.ProductData;
 import com.gocgod.model.ResponseSuccess;
-import com.mikepenz.google_material_typeface_library.GoogleMaterial;
-import com.mikepenz.materialdrawer.AccountHeader;
-import com.mikepenz.materialdrawer.AccountHeaderBuilder;
-import com.mikepenz.materialdrawer.Drawer;
-import com.mikepenz.materialdrawer.DrawerBuilder;
-import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
-import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
-import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -108,8 +96,10 @@ public class MainActivity extends BaseActivity {
                 })
                 .build();*/
 
-        buildToolbar();
-        buildDrawer(savedInstanceState);
+        buildToolbar(null);
+        buildDrawer(savedInstanceState, toolbar);
+        /*getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        drawer.getActionBarDrawerToggle().setDrawerIndicatorEnabled(true);*/
 
         recyclerView.setHasFixedSize(true);
         /*RecyclerView.LayoutManager layoutManager = new GridLayoutManager(this, 2);

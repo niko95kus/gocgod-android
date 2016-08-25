@@ -4,7 +4,6 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/GocGod.iml" filepath="$PROJECT_DIR$/GocGod.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/gocgod-android.iml" filepath="$PROJECT_DIR$/gocgod-android.iml" />
     </modules>
   </component>
 </project>
