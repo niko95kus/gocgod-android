@@ -28,9 +28,10 @@
             android:value="@integer/google_play_services_version" />
 
         <activity android:name=".ProductTestimonialActivity" />
-
-        <activity android:name=".FaqActivity"/>
-
+        <activity android:name=".FaqActivity" />
+        <activity android:name=".BaseActivity" />
+        <activity android:name=".HowToBuyActivity" />
+        <activity android:name=".HowToBuyWebActivity"></activity>
     </application>
 
 </manifest>

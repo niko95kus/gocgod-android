@@ -15,6 +15,7 @@ import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.DrawerBuilder;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
+import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 
 public abstract class BaseActivity extends AppCompatActivity {
@@ -47,7 +48,6 @@ public abstract class BaseActivity extends AppCompatActivity {
                 .withIcon(GoogleMaterial.Icon.gmd_free_breakfast);
         PrimaryDrawerItem howtobuy = new PrimaryDrawerItem().withName(R.string.howToBuy)
                 .withIdentifier(2)
-                .withSelectable(false)
                 .withIcon(GoogleMaterial.Icon.gmd_info);
         PrimaryDrawerItem faq = new PrimaryDrawerItem().withName(R.string.faq)
                 .withIdentifier(3)
@@ -78,6 +78,7 @@ public abstract class BaseActivity extends AppCompatActivity {
                 .addDrawerItems(
                         product,
                         howtobuy,
+
                         faq
                 )
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
@@ -88,6 +89,10 @@ public abstract class BaseActivity extends AppCompatActivity {
                         {
                             if(drawerItem.getIdentifier() == 1){
                                 startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                                finish();
+                            }
+                            else if(drawerItem.getIdentifier() == 2){
+                                startActivity(new Intent(getApplicationContext(), HowToBuyActivity.class));
                                 finish();
                             }
                             else if(drawerItem.getIdentifier() == 3){
