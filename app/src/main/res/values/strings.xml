@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">GocGod</string>
+    <string name="motto">Healthy Drink with Vitamin C and D</string>
 
     //MENU
     <string name="product">Produk</string>
@@ -20,4 +21,8 @@
     <string name="total">Total</string>
     <string name="checkout">CHECK OUT</string>
 
+    <string name="first">Perkenalan</string>
+    <string name="single">Sekali Beli</string>
+    <string name="subscriber">Berlangganan</string>
+    <string name="howtobuy">Cara Berbelanja</string>
 </resources>
