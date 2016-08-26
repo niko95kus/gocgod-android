@@ -4,4 +4,8 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <!--<color name="colorAccent">#FF4081</color>-->
     <color name="colorAccent">#e55300</color>
+    <color name="grey">#818181</color>
+
+    <!-- Custom: Untuk field halaman login, lebih cerah dari Primary -->
+    <color name="textViewModifiedState">@color/carbon_orange_200</color>
 </resources>
