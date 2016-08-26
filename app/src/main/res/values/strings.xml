@@ -10,6 +10,10 @@
     <string name="nothaveaccount">Belum Punya Akun?</string>
     <string name="register">Daftar</string>
 
+    <string name="loading">Sedang diproses</string>
+    <string name="load_error">Error, koneksi internet bermasalah</string>
+    <string name="error">ERROR</string>
+
     //MENU
     <string name="product">Produk</string>
     <string name="howToBuy">Cara Berbelanja</string>
@@ -29,6 +33,11 @@
     <string name="ongkos_kirim">Ongkos Kirim</string>
     <string name="total">Total</string>
     <string name="checkout">CHECK OUT</string>
+    <string name="deleteItemTitle">Hapus</string>
+    <string name="deleteItemMessage">Apakah Anda ingin menghapus produk yang dipilih?</string>
+    <string name="ya">Ya</string>
+    <string name="tidak">Tidak</string>
+    <string name="promo_beli">*Gratis ongkos kirim untuk pembelian dengan total kuantitas lebih dari 5</string>
 
     <string name="first">Perkenalan</string>
     <string name="single">Sekali Beli</string>

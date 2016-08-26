@@ -1,5 +1,6 @@
 package com.gocgod;
 
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.util.Log;
@@ -35,13 +36,14 @@ public class CartActivity extends BaseActivity {
 
 
     GridLayoutManager manager;
-    private double hargaOngkosKirim;
+    private Cart cart;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cart);
         ButterKnife.bind(this);
+        Global.setupUI(findViewById(R.id.layout), CartActivity.this, null);
 
         buildToolbar("Shopping Cart");
         buildDrawer(savedInstanceState, toolbar);
@@ -49,11 +51,29 @@ public class CartActivity extends BaseActivity {
         drawer.getActionBarDrawerToggle().setDrawerIndicatorEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        final Cart cart = CartHelper.getCart();
+        cart = CartHelper.getCart();
         final CartAdapter cartAdapter = new CartAdapter(this);
-        cartAdapter.updateCartItems(getCartItems(cart));
+        cartAdapter.updateCartItems(Global.getCartItems(cart));
 
+        updateTotalPrice();
+
+        recyclerView.setHasFixedSize(true);
+        manager = new GridLayoutManager(this, 1);
+        recyclerView.setLayoutManager(manager);
+        /*recyclerView.addOnScrollListener(new EndlessRecyclerViewScrollListener(manager) {
+            @Override
+            public void onLoadMore(int page, int totalItemsCount) {
+                initCollection(page);
+            }
+        });*/
+
+        recyclerView.setAdapter(cartAdapter);
+    }
+
+    public void updateTotalPrice()
+    {
         int totalQuantity = cart.getTotalQuantity();
+        double hargaOngkosKirim;
 
         //format rupiah
         DecimalFormat kursIndonesia = (DecimalFormat) DecimalFormat.getCurrencyInstance();
@@ -76,34 +96,5 @@ public class CartActivity extends BaseActivity {
         }
 
         total.setText(kursIndonesia.format(cart.getTotalPrice().add(BigDecimal.valueOf(hargaOngkosKirim))));
-
-        recyclerView.setHasFixedSize(true);
-        manager = new GridLayoutManager(this, 1);
-        recyclerView.setLayoutManager(manager);
-        /*recyclerView.addOnScrollListener(new EndlessRecyclerViewScrollListener(manager) {
-            @Override
-            public void onLoadMore(int page, int totalItemsCount) {
-                initCollection(page);
-            }
-        });*/
-
-        recyclerView.setAdapter(cartAdapter);
-    }
-
-    private List<CartItem> getCartItems(Cart cart) {
-        List<CartItem> cartItems = new ArrayList<CartItem>();
-        //Log.d(TAG, "Current shopping cart: " + cart);
-
-        Map<Saleable, Integer> itemMap = cart.getItemWithQuantity();
-
-        for (Map.Entry<Saleable, Integer> entry : itemMap.entrySet()) {
-            CartItem cartItem = new CartItem();
-            cartItem.setProduct((Product) entry.getKey());
-            cartItem.setQuantity(entry.getValue());
-            cartItems.add(cartItem);
-        }
-
-        //Log.d(TAG, "Cart item list: " + cartItems);
-        return cartItems;
     }
 }
