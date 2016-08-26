@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".MainActivity">
+    tools:context=".CartActivity"
+    android:id="@+id/layout">
 
     <carbon.widget.RelativeLayout
         android:id="@+id/header"
@@ -23,18 +24,22 @@
     <carbon.widget.RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/header">
+        android:layout_below="@+id/header"
+        android:layout_above="@+id/footer">
 
         <carbon.widget.RecyclerView
             android:id="@+id/recyclerview"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:descendantFocusability="beforeDescendants"
+            android:focusableInTouchMode="true">
         </carbon.widget.RecyclerView>
     </carbon.widget.RelativeLayout>
 
     <carbon.widget.RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:id="@+id/footer"
         android:gravity="bottom"
         android:layout_gravity="center"
         android:background="@color/colorPrimary"
@@ -80,6 +85,7 @@
                     android:textColor="@color/carbon_white"
                     android:textSize="20sp"
                     android:textStyle="bold"
+                    app:carbon_fontFamily="sans-serif"
                     android:text="@string/total"
                     android:layout_weight="1"/>
 
@@ -89,6 +95,7 @@
                     android:layout_height="match_parent"
                     android:padding="@dimen/carbon_paddingHalf"
                     android:textSize="20sp"
+                    app:carbon_fontFamily="sans-serif"
                     android:textStyle="bold"
                     android:textColor="@color/carbon_white"
                     android:layout_weight="1"/>
@@ -99,7 +106,9 @@
                     android:layout_height="match_parent"
                     android:layout_gravity="right"
                     android:background="@color/colorPrimary"
-                    android:textColor="@color/carbon_red_a700"
+                    app:carbon_fontFamily="sans-serif"
+                    android:textStyle="bold"
+                    android:textColor="@color/carbon_yellow_500"
                     android:text="@string/checkout"/>
 
             </carbon.widget.LinearLayout>

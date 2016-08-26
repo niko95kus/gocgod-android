@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<carbon.widget.LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/loadingLayout"
+    android:background="@color/carbon_white"
+    android:orientation="vertical">
+
+    <carbon.widget.LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1">
+    </carbon.widget.LinearLayout>
+
+    <carbon.widget.TextView
+        android:id="@+id/loadingText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        app:carbon_fontFamily="sans-serif"
+        android:text="@string/loading"/>
+
+    <carbon.widget.ProgressBar
+        android:id="@+id/loading"
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
+        android:layout_margin="@dimen/carbon_padding"
+        app:carbon_barWidth="5dp"
+        app:carbon_progressStyle="bar_indeterminate" />
+
+    <carbon.widget.LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1">
+    </carbon.widget.LinearLayout>
+
+</carbon.widget.LinearLayout>
