@@ -7,5 +7,7 @@ public class Global {
     public static final String IP = "http://192.168.1.11/";
     public static final String imgProduct = Global.IP + "gocgod/public/assets/images/product/";
 
+    //Shopping
+    public static Boolean ENABLE_SHOP = true;
 
 }

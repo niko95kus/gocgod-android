@@ -1,18 +1,24 @@
 package com.gocgod;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.LayerDrawable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 
 import com.gocgod.adapter.ProductAdapter;
 import com.gocgod.model.ProductData;
 import com.gocgod.model.ResponseSuccess;
 import com.mikepenz.google_material_typeface_library.GoogleMaterial;
+import com.mikepenz.iconics.IconicsDrawable;
 import com.mikepenz.materialdrawer.AccountHeader;
 import com.mikepenz.materialdrawer.AccountHeaderBuilder;
 import com.mikepenz.materialdrawer.Drawer;
@@ -25,10 +31,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.zip.Inflater;
 
 //import carbon.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -38,6 +46,54 @@ public class MainActivity extends BaseActivity {
 
     List<ProductData> productData = new ArrayList<ProductData>();
     GridLayoutManager manager;
+
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        // Inflate the menu; this adds items to the action bar if it is present.
+//        getMenuInflater().inflate(R.menu.menu_main, menu);
+//
+//        if (Global.ENABLE_SHOP) {
+//            MenuItem item = menu.findItem(R.id.action_cart);
+//            LayerDrawable icon = (LayerDrawable) item.getIcon();
+//
+////            Utils.setBadgeCount(this, icon, mCartCounter);
+//
+//            IconicsDrawable cartIcon = new IconicsDrawable(this, GoogleMaterial.Icon.gmd_shopping_cart);
+//            cartIcon = cartIcon.color(Color.WHITE);
+//            icon.setDrawableByLayerId(R.id.ic_shoppingcart, cartIcon.actionBar());
+//        } else {
+//            menu.findItem(R.id.action_cart).setVisible(false);
+//        }
+//        return true;
+//    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+
+        MenuItem item = menu.findItem(R.id.action_cart);
+        LayerDrawable icon = (LayerDrawable) item.getIcon();
+
+        IconicsDrawable cartIcon = new IconicsDrawable(this, GoogleMaterial.Icon.gmd_shopping_cart);
+        cartIcon = cartIcon.color(Color.WHITE);
+        menu.findItem(R.id.action_cart).setIcon(cartIcon.actionBar());
+//        icon.setDrawableByLayerId(R.id.ic_shoppingcart, cartIcon.actionBar());
+
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem menu) {
+        int id = menu.getItemId();
+
+        switch(id){
+            case R.id.action_cart:
+                Log.d("a", "a");
+                return true;
+        }
+        return super.onOptionsItemSelected(menu);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

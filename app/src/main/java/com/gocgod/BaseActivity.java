@@ -2,13 +2,19 @@ package com.gocgod;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.LayerDrawable;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 
 import com.mikepenz.google_material_typeface_library.GoogleMaterial;
+import com.mikepenz.iconics.IconicsDrawable;
 import com.mikepenz.materialdrawer.AccountHeader;
 import com.mikepenz.materialdrawer.AccountHeaderBuilder;
 import com.mikepenz.materialdrawer.Drawer;
@@ -18,28 +24,29 @@ import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
 import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 
+import butterknife.internal.Utils;
+
 public abstract class BaseActivity extends AppCompatActivity {
-    protected Drawer drawer;
+    protected Drawer drawer = null;
     protected Toolbar toolbar;
     protected ActionBar actionBar;
+
+    Integer mCartCounter = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        /*buildToolbar();
-        buildDrawer(savedInstanceState);*/
     }
 
-    public void buildToolbar(String title)
-    {
+    public void buildToolbar(String title) {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         actionBar = getSupportActionBar();
         if(title != null)
             actionBar.setTitle(title);
     }
+
 
     public void buildDrawer(Bundle savedInstanceState, Toolbar toolbar)
     {
@@ -52,7 +59,10 @@ public abstract class BaseActivity extends AppCompatActivity {
         PrimaryDrawerItem faq = new PrimaryDrawerItem().withName(R.string.faq)
                 .withIdentifier(3)
                 .withIcon(GoogleMaterial.Icon.gmd_help);
-
+        PrimaryDrawerItem login = new PrimaryDrawerItem().withName(R.string.login_user)
+                .withIdentifier(20)
+                .withTextColor(ContextCompat.getColor(this, R.color.colorPrimary))
+                .withIcon(GoogleMaterial.Icon.gmd_lock);
 
         //menu header
         AccountHeader header = new AccountHeaderBuilder()
@@ -78,7 +88,6 @@ public abstract class BaseActivity extends AppCompatActivity {
                 .addDrawerItems(
                         product,
                         howtobuy,
-
                         faq
                 )
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
@@ -99,6 +108,9 @@ public abstract class BaseActivity extends AppCompatActivity {
                                 startActivity(new Intent(getApplicationContext(), FaqActivity.class));
                                 finish();
                             }
+                            else if(drawerItem.getIdentifier() == 20){
+                                startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+                            }
                         }
                         return false;
                     }
@@ -113,6 +125,7 @@ public abstract class BaseActivity extends AppCompatActivity {
                         return true;
                     }
                 })
+                .addStickyDrawerItems(login)
                 .build();
     }
 }
