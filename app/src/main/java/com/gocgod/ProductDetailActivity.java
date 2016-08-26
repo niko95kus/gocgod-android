@@ -1,24 +1,28 @@
 package com.gocgod;
 
+import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentManager;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.gocgod.adapter.DescriptionTestimonialAdapter;
+import com.gocgod.cart.model.Cart;
+import com.gocgod.cart.util.CartHelper;
+import com.gocgod.model.Product;
 import com.gocgod.model.ProductData;
 import com.gocgod.model.ProductTestimonial;
 import com.gocgod.model.ResponseSuccess;
-import com.ms.square.android.expandabletextview.ExpandableTextView;
 import com.squareup.picasso.Picasso;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -29,7 +33,7 @@ import java.text.DecimalFormatSymbols;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import butterknife.OnFocusChange;
+import butterknife.OnTouch;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -46,14 +50,24 @@ public class ProductDetailActivity extends BaseActivity {
     WrapContentViewPager pager;
     @BindView(R.id.tabs)
     TabLayout tabs;
-    @BindView(R.id.qty)
-    carbon.widget.EditText qty;
+    @BindView(R.id.quantity)
+    carbon.widget.EditText quantity;
+    @BindView(R.id.layout)
+    LinearLayout layout;
+    @BindView(R.id.loadingLayout)
+    carbon.widget.LinearLayout loadingLayout;
+    @BindView(R.id.loading)
+    carbon.widget.ProgressBar loading;
+    @BindView(R.id.loadingText)
+    carbon.widget.TextView loadingText;
 //    @BindView(R.id.expand_text_view)
 //    ExpandableTextView comment;
 
     private FragmentManager fragmentManager;
 //    private ProductData data;
     private String deskripsi;
+    private int productId;
+    private ProductData data;
     private ArrayList<ProductTestimonial> productTestimonial = new ArrayList<ProductTestimonial>();
 //    private Context context;
     /**
@@ -66,15 +80,21 @@ public class ProductDetailActivity extends BaseActivity {
 //        this.context = context;
 //    }
 
+    public ProductDetailActivity(){super();}
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product_detail);
         ButterKnife.bind(this);
+        Global.setupUI(findViewById(R.id.layout), ProductDetailActivity.this, quantity);
+
+        loadingLayout.setVisibility(View.VISIBLE);
 
         fragmentManager = getSupportFragmentManager();
 
         Bundle bundle = getIntent().getExtras();
+        productId = bundle.getInt("productId");
 
         buildToolbar("Detail Produk");
         buildDrawer(savedInstanceState, toolbar);
@@ -95,7 +115,7 @@ public class ProductDetailActivity extends BaseActivity {
         tabs.setTabGravity(TabLayout.GRAVITY_FILL);
 
         if (bundle != null) {
-            getProductData(Integer.toString(bundle.getInt("productId")));
+            getProductData(Integer.toString(productId));
             //set object adapter kedalam ViewPager
 //            Log.d("lapar", "a");
 //            Log.d("maumakan", "lllll");
@@ -125,7 +145,7 @@ public class ProductDetailActivity extends BaseActivity {
             public void onResponse(Call<ResponseSuccess> call, Response<ResponseSuccess> response) {
                 ResponseSuccess result = response.body();
 
-                ProductData data = result.getSuccess().getData().getProductData();
+                data = result.getSuccess().getData().getProductData();
                 //Log.d("aurel", data.getDescription().replace("\n", "\\n").replace("\r", "\\r"));
                 //bentuk huruf
                 Typeface fontTitle = Typeface.createFromAsset(getAssets(), "fonts/nexablack.ttf");
@@ -181,7 +201,7 @@ public class ProductDetailActivity extends BaseActivity {
 
             @Override
             public void onFailure(Call<ResponseSuccess> call, Throwable t) {
-
+                refresh();
             }
         });
     }
@@ -205,35 +225,130 @@ public class ProductDetailActivity extends BaseActivity {
 
                     //pager.setAdapter(new DescriptionTestimonialAdapter(getSupportFragmentManager(),deskripsi, productTestimonial, true, productId));
                 }
-                //
-
                 pager.setAdapter(new DescriptionTestimonialAdapter(getSupportFragmentManager(),deskripsi, productTestimonial, productId));
+                loadingLayout.setVisibility(View.GONE);
             }
 
             @Override
             public void onFailure(Call<ResponseSuccess> call, Throwable t) {
-
+                refresh();
             }
         });
+    }
+
+    public void refresh()
+    {
+        loading.setVisibility(View.GONE);
+        loadingText.setText(getResources().getString(R.string.error));
+        String message = getResources().getString(R.string.load_error);
+        Snackbar snackbar = Snackbar
+                .make(layout, message, Snackbar.LENGTH_INDEFINITE)
+                .setAction("Ulangi", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        loading.setVisibility(View.VISIBLE);
+                        loadingText.setText(getResources().getString(R.string.loading));
+                        getProductData(String.valueOf(productId));
+                    }
+                });
+        // Changing message text color
+        snackbar.setActionTextColor(Color.RED);
+
+        // Changing action button text color
+        View sbView = snackbar.getView();
+        TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
+        textView.setTextColor(Color.WHITE);
+
+        snackbar.show();
+    }
+
+    @OnTouch(R.id.quantity)
+    public boolean onTouch()
+    {
+        Global.showCursor(quantity);
+        return false;
+    }
+
+    @OnClick(R.id.btn_add_to_cart)
+    public void addToCart()
+    {
+        String tmp = quantity.getText().toString();
+        if(tmp.equals(""))
+        {
+            quantity.setText(String.valueOf(1));
+            String message = getResources().getString(R.string.minimum_qty);
+            Global.showSnackBar(findViewById(R.id.layout), message, Color.WHITE);
+            return;
+        }
+        else {
+            int quantity = Integer.parseInt(tmp);
+            if (quantity < 1) {
+                this.quantity.setText(String.valueOf(1));
+                String message = getResources().getString(R.string.minimum_qty);
+                Global.showSnackBar(findViewById(R.id.layout), message, Color.WHITE);
+                return;
+            }
+        }
+
+        //kalo quantity >= 1, masukkin cart
+        Product product = new Product(data.getVarianId(),data.getVarianName(), BigDecimal.valueOf(Integer.valueOf(data.getPrice())), data.getCategoryName(), data.getPicture());
+        int quantity = Integer.parseInt(tmp);
+
+        Cart cart = CartHelper.getCart();
+        cart.add(product, quantity);
+        String message = getResources().getString(R.string.added_to_cart);
+
+        Snackbar snackbar = Snackbar
+                .make(layout, message, Snackbar.LENGTH_LONG)
+                .setAction("CART", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        startActivity(new Intent(ProductDetailActivity.this, CartActivity.class));
+                    }
+                });
+        // Changing message text color
+        snackbar.setActionTextColor(Color.RED);
+
+        // Changing action button text color
+        View sbView = snackbar.getView();
+        TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
+        textView.setTextColor(Color.WHITE);
+
+        snackbar.show();
+        //Log.d("halo", String.valueOf(cart.getTotalPrice()));
     }
 
     @OnClick(R.id.increase)
     public void increase()
     {
-        int quantity = Integer.parseInt(qty.getText().toString());
-        quantity++;
-        qty.setText(String.valueOf(quantity));
+        String tmp = quantity.getText().toString();
+        if(tmp.equals("")) {
+            quantity.setText(String.valueOf(1));
+        }
+        else
+        {
+            int quantity = Integer.parseInt(tmp);
+            quantity++;
+            this.quantity.setText(String.valueOf(quantity));
+        }
     }
 
     @OnClick(R.id.decrease)
     public void decrease()
     {
-        int quantity = Integer.parseInt(qty.getText().toString());
-        if(quantity <= 1)
-            qty.setText(String.valueOf(1));
-        else {
-            quantity--;
-            qty.setText(String.valueOf(quantity));
+        String tmp = quantity.getText().toString();
+        if(tmp.equals("")) {
+            quantity.setText(String.valueOf(1));
+        }
+        else
+        {
+            int quantity = Integer.parseInt(tmp);
+            if(quantity <= 1)
+                this.quantity.setText(String.valueOf(1));
+            else {
+                quantity--;
+                this.quantity.setText(String.valueOf(quantity));
+            }
         }
     }
 }

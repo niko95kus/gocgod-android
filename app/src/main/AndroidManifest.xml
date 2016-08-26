@@ -29,7 +29,12 @@
 
         <activity android:name=".ProductTestimonialActivity" />
         <activity android:name=".FaqActivity" />
-        <activity android:name=".BaseActivity" />
+
+        <activity
+            android:name=".CartActivity"
+            android:windowSoftInputMode="adjustPan">
+        </activity>
+
         <activity android:name=".HowToBuyActivity" />
         <activity android:name=".HowToBuyWebActivity" />
         <activity android:name=".LoginActivity"></activity>

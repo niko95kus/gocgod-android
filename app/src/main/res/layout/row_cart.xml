@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<carbon.widget.CardView style="@style/carbon_CardView"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/card"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/carbon_paddingHalf"
+    app:carbon_cornerRadius="@dimen/carbon_cornerRadiusCard">
+
+    <carbon.widget.LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <carbon.widget.LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/carbon_marginHalf"
+            android:orientation="horizontal">
+
+            <carbon.widget.ImageView
+                android:id="@+id/picture"
+                android:layout_width="80dp"
+                android:layout_height="80dp" />
+
+            <carbon.widget.LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:layout_margin="@dimen/carbon_marginHalf"
+                android:layout_weight="1">
+
+                <carbon.widget.TextView
+                    android:id="@+id/name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"
+                    android:textSize="20sp"
+                    android:textColor="@color/carbon_black"/>
+
+                <carbon.widget.TextView
+                    android:id="@+id/price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:textColor="@color/carbon_red_800"/>
+
+            </carbon.widget.LinearLayout>
+
+            <Button
+                android:id="@+id/btnDelete"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                style="?android:attr/borderlessButtonStyle"/>
+
+        </carbon.widget.LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/darker_gray"/>
+
+        <carbon.widget.LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <carbon.widget.TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="@string/quantity" />
+
+
+            <carbon.widget.Button
+                android:id="@+id/decrease"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                android:background="@color/carbon_grey_600"
+                android:layout_margin="@dimen/carbon_margin"
+                android:textSize="20sp"
+                android:text="@string/minus" />
+
+            <carbon.widget.EditText
+                android:id="@+id/quantity"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:text="1"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:inputType="number"/>
+
+            <carbon.widget.Button
+                android:id="@+id/increase"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                android:background="@color/carbon_grey_600"
+                android:layout_margin="@dimen/carbon_margin"
+                android:textSize="20sp"
+                android:text="@string/plus" />
+
+            <!--<carbon.widget.TextView
+                android:id="@+id/quantity"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_gravity="center"
+                android:layout_margin="@dimen/carbon_marginHalf"
+                android:background="@color/carbon_grey_400"
+                android:gravity="center"
+                android:textColor="@color/carbon_white"/>-->
+
+        </carbon.widget.LinearLayout>
+    </carbon.widget.LinearLayout>
+
+
+</carbon.widget.CardView>
