@@ -65,7 +65,8 @@ public class MainActivity extends BaseActivity {
         IconicsDrawable cartIcon = new IconicsDrawable(this, GoogleMaterial.Icon.gmd_shopping_cart);
         cartIcon = cartIcon.color(Color.WHITE);
         menu.findItem(R.id.action_cart).setIcon(cartIcon.actionBar());
-//        icon.setDrawableByLayerId(R.id.ic_shoppingcart, cartIcon.actionBar());
+//        icon.setDrawableByLayerId(R.id.ic_shopping
+// cart, cartIcon.actionBar());
 
         return true;
     }

@@ -23,4 +23,7 @@ public interface ApiService {
     @Headers("Content-Type: application/json")
     @GET("testimonial_data/{productId}")
     Call<ResponseSuccess> getProductTestimonial(@Path("productId") String productId, @QueryMap Map<String, String> options);
+
+    @GET("findalocation")
+    Call<ResponseSuccess> getAgentLocation(@QueryMap Map<String, String> options);
 }
