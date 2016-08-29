@@ -59,6 +59,9 @@ public abstract class BaseActivity extends AppCompatActivity {
         PrimaryDrawerItem faq = new PrimaryDrawerItem().withName(R.string.faq)
                 .withIdentifier(3)
                 .withIcon(GoogleMaterial.Icon.gmd_help);
+        PrimaryDrawerItem location = new PrimaryDrawerItem().withName(R.string.location)
+                .withIdentifier(4)
+                .withIcon(GoogleMaterial.Icon.gmd_location_city);
         PrimaryDrawerItem login = new PrimaryDrawerItem().withName(R.string.login_user)
                 .withIdentifier(20)
                 .withTextColor(ContextCompat.getColor(this, R.color.colorPrimary))
@@ -88,6 +91,7 @@ public abstract class BaseActivity extends AppCompatActivity {
                 .addDrawerItems(
                         product,
                         howtobuy,
+                        location,
                         faq
                 )
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
@@ -106,6 +110,10 @@ public abstract class BaseActivity extends AppCompatActivity {
                             }
                             else if(drawerItem.getIdentifier() == 3){
                                 startActivity(new Intent(getApplicationContext(), FaqActivity.class));
+                                finish();
+                            }
+                            else if(drawerItem.getIdentifier() == 4){
+                                startActivity(new Intent(getApplicationContext(), AgentLocationActivity.class));
                                 finish();
                             }
                             else if(drawerItem.getIdentifier() == 20){

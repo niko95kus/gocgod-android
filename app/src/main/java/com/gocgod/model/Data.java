@@ -19,6 +19,10 @@ public class Data {
     @Expose
     private ProductTestimonialPagination productTestimonialPagination;
 
+    @SerializedName("agent")
+    @Expose
+    private AgentLocationPagination agentLocationPagination;
+
     /**
      *
      * @return
@@ -71,6 +75,25 @@ public class Data {
      */
     public void setProductPagination(ProductPagination productPagination) {
         this.productPagination = productPagination;
+    }
+
+
+    /**
+     *
+     * @return
+     * The agent
+     */
+    public AgentLocationPagination getAgent() {
+        return agentLocationPagination;
+    }
+
+    /**
+     *
+     * @param agent
+     * The agent
+     */
+    public void setAgent(AgentLocationPagination agentLocationPagination) {
+        this.agentLocationPagination = agentLocationPagination;
     }
 
 }
