@@ -255,10 +255,10 @@ public class LoginActivity extends Activity {
 //        forgotDialog.show();
 //    }
 //
-//    @OnClick(R.id.register_button)
-//    public void openRegister() {
-//        Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
-//        startActivity(intent);
-//        finish();
-//    }
+    @OnClick(R.id.register_button)
+    public void openRegister() {
+        Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
+        startActivity(intent);
+        finish();
+    }
 }
