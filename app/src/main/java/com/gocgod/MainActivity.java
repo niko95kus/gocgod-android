@@ -17,10 +17,10 @@ import android.view.View;
 import com.gocgod.adapter.ProductAdapter;
 import com.gocgod.model.ProductData;
 import com.gocgod.model.ResponseSuccess;
-
-import com.gocgod.ui.BadgeDrawable;
 import com.mikepenz.google_material_typeface_library.GoogleMaterial;
 import com.mikepenz.iconics.IconicsDrawable;
+
+import com.gocgod.ui.BadgeDrawable;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -28,7 +28,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-//import carbon.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import retrofit2.Call;
