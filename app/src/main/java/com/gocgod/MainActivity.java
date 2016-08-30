@@ -39,7 +39,7 @@ public class MainActivity extends BaseActivity {
 
     List<ProductData> productData = new ArrayList<ProductData>();
     GridLayoutManager manager;
-
+    
     private int cartCount = 0;
 
     @Override
