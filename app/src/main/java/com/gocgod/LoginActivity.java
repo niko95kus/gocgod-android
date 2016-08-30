@@ -41,6 +41,7 @@ public class LoginActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
+        Global.setupUI(findViewById(R.id.login_layout), LoginActivity.this, null);
 
         SpannableString content = new SpannableString(getString(R.string.forgot_password));
         content.setSpan(new UnderlineSpan(), 0, content.length(), 0);
@@ -51,19 +52,17 @@ public class LoginActivity extends Activity {
     public void onBackPressed() {
         super.onBackPressed();
         this.finish();
-        //Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-        //LoginActivity.this.startActivity(intent);
     }
 
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(IconicsContextWrapper.wrap(newBase));
     }
-
+//
 //    @OnClick(R.id.submit_login)
 //    public void authUser() {
 //        final String device_token = Auth.getInstance().getDeviceToken();
-//        final String user_hp = userHp.getText().toString();
+//        final String email = userHp.getText().toString();
 //        String user_password = userPassword.getText().toString();
 //
 //        if (user_hp.matches("") || user_hp.length() < 5 || user_hp.length() > 15) {

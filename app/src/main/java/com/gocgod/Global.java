@@ -1,21 +1,18 @@
 package com.gocgod;
 
 import android.app.Activity;
+import android.content.Context;
 import android.support.design.widget.Snackbar;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 
-import com.gocgod.cart.model.Cart;
-import com.gocgod.cart.model.CartItem;
-import com.gocgod.cart.model.Saleable;
-import com.gocgod.model.Product;
+import com.gocgod.cart.CartDataSource;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.sql.SQLException;
 
 import carbon.widget.EditText;
 
@@ -23,27 +20,45 @@ import carbon.widget.EditText;
  * Created by Kevin on 8/8/2016.
  */
 public class Global {
-    public static final String IP = "http://192.168.1.8/";
+    public static final String IP = "http://192.168.1.15/";
     public static final String imgProduct = Global.IP + "gocgod/public/assets/images/product/";
 
-    //Shopping
-    public static Boolean ENABLE_SHOP = true;
+    public static double getCartTotalPrice(Context context) throws SQLException {
+        CartDataSource dataSource = new CartDataSource(context);
+        double totalPrice = 0;
 
-    public static List<CartItem> getCartItems(Cart cart) {
-        List<CartItem> cartItems = new ArrayList<CartItem>();
-        //Log.d(TAG, "Current shopping cart: " + cart);
+        try {
+            dataSource.open();
 
-        Map<Saleable, Integer> itemMap = cart.getItemWithQuantity();
-
-        for (Map.Entry<Saleable, Integer> entry : itemMap.entrySet()) {
-            CartItem cartItem = new CartItem();
-            cartItem.setProduct((Product) entry.getKey());
-            cartItem.setQuantity(entry.getValue());
-            cartItems.add(cartItem);
+            totalPrice = dataSource.getSubtotal();
+        } catch (Exception e) {
+            Log.d("sqlError", e.getMessage());
+        }finally {
+            dataSource.close();
         }
 
-        //Log.d(TAG, "Cart item list: " + cartItems);
-        return cartItems;
+        dataSource.close();
+
+        return totalPrice;
+    }
+
+    public static int getCartCount(Context context) throws SQLException {
+        CartDataSource dataSource = new CartDataSource(context);
+        int cart = 0;
+
+        try {
+            dataSource.open();
+
+            cart = dataSource.getCountCart();
+        } catch (Exception e) {
+            Log.d("sqlError", e.getMessage());
+        }finally {
+            dataSource.close();
+        }
+
+        dataSource.close();
+
+        return cart;
     }
 
     public static void hideSoftKeyboard(Activity activity) {

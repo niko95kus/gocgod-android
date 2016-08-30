@@ -19,14 +19,13 @@ import android.widget.Button;
 import com.gocgod.CartActivity;
 import com.gocgod.Global;
 import com.gocgod.R;
-import com.gocgod.cart.model.Cart;
-import com.gocgod.cart.model.CartItem;
-import com.gocgod.cart.util.CartHelper;
+import com.gocgod.cart.Cart;
+import com.gocgod.cart.CartDataSource;
 import com.mikepenz.google_material_typeface_library.GoogleMaterial;
 import com.mikepenz.iconics.IconicsDrawable;
 import com.squareup.picasso.Picasso;
 
-import java.math.BigDecimal;
+import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.List;
@@ -38,25 +37,21 @@ import butterknife.OnFocusChange;
 import butterknife.OnTouch;
 import carbon.widget.CardView;
 
-/**
+/*
  * Created by Kevin on 8/24/2016.
- */
+*/
+
 public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
     private Context context;
-    private List<CartItem> cartItems;
-    private Cart cart;
+    private List<Cart> cartItems;
 
-    public CartAdapter(Context context)
+    public CartAdapter(Context context, List<Cart> cartItems)
     {
         this.context = context;
-    }
-
-    public void updateCartItems(List<CartItem> cartItems) {
         this.cartItems = cartItems;
-        notifyDataSetChanged();
     }
 
-    public CartItem getItem(int position) {
+    public Cart getItem(int position) {
         return cartItems.get(position);
     }
 
@@ -83,13 +78,12 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
         //untuk ubah tulisan
         Typeface font = Typeface.createFromAsset(context.getAssets(), "fonts/nexablack.ttf");
 
-        cart = CartHelper.getCart();
-        final CartItem cartItem = getItem(position);
+        final Cart cartItem = getItem(position);
 
-        Picasso.with(holder.picture.getContext()).load(Global.imgProduct + cartItem.getProduct().getCategory() + "/" + cartItem.getProduct().getPicture()).resize(80,80).into(holder.picture);
+        Picasso.with(holder.picture.getContext()).load(Global.imgProduct + cartItem.getCategory() + "/" + cartItem.getImage()).resize(80,80).into(holder.picture);
         holder.name.setTypeface(font);
-        holder.name.setText(cartItem.getProduct().getName());
-        BigDecimal harga = cartItem.getProduct().getPrice();
+        holder.name.setText(cartItem.getName());
+        Double harga = cartItem.getPrice();
         holder.price.setText(kursIndonesia.format(harga));
         holder.quantity.setText(String.valueOf(cartItem.getQuantity()));
 
@@ -100,11 +94,12 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
             holder.btnDelete.setBackground(new IconicsDrawable(context, GoogleMaterial.Icon.gmd_delete_forever).color(Color.GRAY));
         }
 
-        /*ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) holder.card.getLayoutParams();
+        ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) holder.card.getLayoutParams();
         if (position == cartItems.size()) {
             layoutParams.bottomMargin = 200;
             holder.card.setLayoutParams(layoutParams);
-        }*/
+        }
+
     }
 
     @Override
@@ -139,10 +134,19 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
 
         public void updateCart(int qty)
         {
-            List<CartItem> cartItems = Global.getCartItems(cart);
-            cart.update(cartItems.get(getAdapterPosition()).getProduct(), qty);
-            cartItems.get(getAdapterPosition()).setQuantity(qty);
-            updateCartItems(cartItems);
+            CartDataSource dataSource = new CartDataSource(context);
+
+            try
+            {
+                dataSource.open();
+
+                dataSource.updateQty(cartItems.get(getAdapterPosition()).getProductid(), qty);
+            } catch (SQLException e) {
+                Log.d("sqlError", e.getMessage());
+            } finally
+            {
+                dataSource.close();
+            }
 
             if(context instanceof CartActivity){
                 ((CartActivity)context).updateTotalPrice();
@@ -181,11 +185,27 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
                 .setPositiveButton(context.getResources().getString(R.string.ya), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        List<CartItem> cartItems = Global.getCartItems(cart);
+                        /*List<CartItem> cartItems = Global.getCartItems(cart);
                         cart.remove(cartItems.get(getAdapterPosition()).getProduct());
                         cartItems.remove(getAdapterPosition());
                         updateCartItems(cartItems);
-                        notifyDataSetChanged();
+                        notifyDataSetChanged();*/
+
+                        CartDataSource dataSource = new CartDataSource(context);
+
+                        try{
+                            dataSource.open();
+
+                            dataSource.deleteCart(cartItems.get(getAdapterPosition()).getProductid());
+
+                            cartItems.remove(getAdapterPosition());
+                            notifyDataSetChanged();
+                        } catch (SQLException e) {
+                            Log.d("sqlError", e.getMessage());
+                        }finally {
+                            dataSource.close();
+                        }
+
 
                         if(context instanceof CartActivity){
                             ((CartActivity)context).updateTotalPrice();

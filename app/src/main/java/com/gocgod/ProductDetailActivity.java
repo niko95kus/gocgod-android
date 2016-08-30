@@ -3,10 +3,15 @@ package com.gocgod;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.LayerDrawable;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentManager;
+import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -14,15 +19,18 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.gocgod.adapter.DescriptionTestimonialAdapter;
-import com.gocgod.cart.model.Cart;
-import com.gocgod.cart.util.CartHelper;
-import com.gocgod.model.Product;
+import com.gocgod.cart.Cart;
+import com.gocgod.cart.CartDataSource;
 import com.gocgod.model.ProductData;
 import com.gocgod.model.ProductTestimonial;
 import com.gocgod.model.ResponseSuccess;
+import com.gocgod.ui.BadgeDrawable;
+import com.mikepenz.google_material_typeface_library.GoogleMaterial;
+import com.mikepenz.iconics.IconicsDrawable;
 import com.squareup.picasso.Picasso;
 
 import java.math.BigDecimal;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -45,7 +53,6 @@ public class ProductDetailActivity extends BaseActivity {
     TextView name;
     @BindView(R.id.price)
     TextView price;
-    //@BindView(R.id.pager) carbon.widget.ViewPager pager;
     @BindView(R.id.pager)
     WrapContentViewPager pager;
     @BindView(R.id.tabs)
@@ -63,6 +70,7 @@ public class ProductDetailActivity extends BaseActivity {
 //    @BindView(R.id.expand_text_view)
 //    ExpandableTextView comment;
 
+    private int cartCount;
     private FragmentManager fragmentManager;
 //    private ProductData data;
     private String deskripsi;
@@ -125,12 +133,81 @@ public class ProductDetailActivity extends BaseActivity {
             //pager.setAdapter(new DescriptionTestimonialAdapter(getSupportFragmentManager(),
             //        deskripsi));
         }
+        new FetchCartCountTask().execute();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+
+        MenuItem item = menu.findItem(R.id.action_cart);
+        LayerDrawable icon = (LayerDrawable) item.getIcon();
+
+        try {
+            cartCount = Global.getCartCount(this);
+        } catch (SQLException e) {
+            Log.d("sqlError", e.getMessage());
+        }
+
+        BadgeDrawable badge;
+
+        // Reuse drawable if possible
+        Drawable reuse = icon.findDrawableByLayerId(R.id.ic_badge);
+        if (reuse != null && reuse instanceof BadgeDrawable) {
+            badge = (BadgeDrawable) reuse;
+        } else {
+            badge = new BadgeDrawable(this);
+        }
+
+        badge.setCount(cartCount);
+        icon.mutate();
+        icon.setDrawableByLayerId(R.id.ic_badge, badge);
+
+        IconicsDrawable cartIcon = new IconicsDrawable(this, GoogleMaterial.Icon.gmd_shopping_cart);
+        cartIcon = cartIcon.color(Color.WHITE);
+        icon.setDrawableByLayerId(R.id.ic_shoppingcart, cartIcon.actionBar());
+
+        return true;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        new FetchCartCountTask().execute();
+    }
+
+    class FetchCartCountTask extends AsyncTask<Void, Void, Integer> {
+
+        @Override
+        protected Integer doInBackground(Void... params) {
+            int cartCount = 0;
+            try {
+                cartCount = Global.getCartCount(ProductDetailActivity.this);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+            return cartCount;
+        }
+
+        @Override
+        public void onPostExecute(Integer count) {
+            cartCount = count;
+            invalidateOptionsMenu();
+        }
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-            finish();
+        int id = item.getItemId();
+
+        switch(id){
+            case R.id.action_cart:
+                startActivity(new Intent(this, CartActivity.class));
+                break;
+            case android.R.id.home:
+                finish(); break;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -270,8 +347,7 @@ public class ProductDetailActivity extends BaseActivity {
     }
 
     @OnClick(R.id.btn_add_to_cart)
-    public void addToCart()
-    {
+    public void addToCart() {
         String tmp = quantity.getText().toString();
         if(tmp.equals(""))
         {
@@ -291,31 +367,44 @@ public class ProductDetailActivity extends BaseActivity {
         }
 
         //kalo quantity >= 1, masukkin cart
-        Product product = new Product(data.getVarianId(),data.getVarianName(), BigDecimal.valueOf(Integer.valueOf(data.getPrice())), data.getCategoryName(), data.getPicture());
         int quantity = Integer.parseInt(tmp);
 
-        Cart cart = CartHelper.getCart();
-        cart.add(product, quantity);
-        String message = getResources().getString(R.string.added_to_cart);
+        CartDataSource dataSource = new CartDataSource(this);
 
-        Snackbar snackbar = Snackbar
-                .make(layout, message, Snackbar.LENGTH_LONG)
-                .setAction("CART", new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        startActivity(new Intent(ProductDetailActivity.this, CartActivity.class));
-                    }
-                });
-        // Changing message text color
-        snackbar.setActionTextColor(Color.RED);
+        try {
+            dataSource.open();
 
-        // Changing action button text color
-        View sbView = snackbar.getView();
-        TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
-        textView.setTextColor(Color.WHITE);
+            dataSource.createCart(data.getVarianId(), data.getVarianName(), data.getPicture(), data.getCategoryName(), quantity, Double.valueOf(data.getWeight()), Double.valueOf(data.getPrice()), 0, 0, 0, "");
 
-        snackbar.show();
-        //Log.d("halo", String.valueOf(cart.getTotalPrice()));
+            new FetchCartCountTask().execute();
+
+            String message = getResources().getString(R.string.added_to_cart);
+
+            Snackbar snackbar = Snackbar
+                    .make(layout, message, Snackbar.LENGTH_LONG)
+                    .setAction("CART", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            startActivity(new Intent(ProductDetailActivity.this, CartActivity.class));
+                        }
+                    });
+            // Changing message text color
+            snackbar.setActionTextColor(Color.RED);
+
+            // Changing action button text color
+            View sbView = snackbar.getView();
+            TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
+            textView.setTextColor(Color.WHITE);
+
+            snackbar.show();
+        }
+        catch (Exception e)
+        {
+            Log.d("sqlError", e.getMessage());
+        }
+        finally {
+            dataSource.close();
+        }
     }
 
     @OnClick(R.id.increase)
