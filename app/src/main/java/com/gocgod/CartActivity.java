@@ -1,28 +1,23 @@
 package com.gocgod;
 
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.util.Log;
 import android.view.View;
 
 import com.gocgod.adapter.CartAdapter;
-import com.gocgod.cart.model.Cart;
-import com.gocgod.cart.model.CartItem;
-import com.gocgod.cart.model.Saleable;
-import com.gocgod.cart.util.CartHelper;
-import com.gocgod.model.Product;
 
-import java.math.BigDecimal;
+import com.gocgod.cart.Cart;
+import com.gocgod.cart.CartDataSource;
+
+import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 public class CartActivity extends BaseActivity {
     @BindView(R.id.recyclerview)
@@ -36,7 +31,7 @@ public class CartActivity extends BaseActivity {
 
 
     GridLayoutManager manager;
-    private Cart cart;
+    private List<Cart> cart = new ArrayList<Cart>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,9 +46,19 @@ public class CartActivity extends BaseActivity {
         drawer.getActionBarDrawerToggle().setDrawerIndicatorEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        cart = CartHelper.getCart();
-        final CartAdapter cartAdapter = new CartAdapter(this);
-        cartAdapter.updateCartItems(Global.getCartItems(cart));
+        CartDataSource dataSource = new CartDataSource(this);
+
+        try{
+            dataSource.open();
+
+            cart = dataSource.getAllCarts();
+        } catch (SQLException e) {
+            Log.d("sqlError", e.getMessage());
+        } finally {
+            dataSource.close();
+        }
+
+        final CartAdapter cartAdapter = new CartAdapter(this, cart);
 
         updateTotalPrice();
 
@@ -72,8 +77,16 @@ public class CartActivity extends BaseActivity {
 
     public void updateTotalPrice()
     {
-        int totalQuantity = cart.getTotalQuantity();
+        int totalQuantity = 0;
+        double totalPrice = 0;
         double hargaOngkosKirim;
+
+        try {
+            totalQuantity = Global.getCartCount(this);
+            totalPrice = Global.getCartTotalPrice(this);
+        } catch (SQLException e) {
+            Log.d("sqlError", e.getMessage());
+        }
 
         //format rupiah
         DecimalFormat kursIndonesia = (DecimalFormat) DecimalFormat.getCurrencyInstance();
@@ -95,6 +108,6 @@ public class CartActivity extends BaseActivity {
             layoutOngkosKirim.setVisibility(View.GONE);
         }
 
-        total.setText(kursIndonesia.format(cart.getTotalPrice().add(BigDecimal.valueOf(hargaOngkosKirim))));
+        total.setText(kursIndonesia.format(totalPrice + hargaOngkosKirim));
     }
 }
