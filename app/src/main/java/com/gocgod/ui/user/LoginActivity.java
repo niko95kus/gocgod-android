@@ -1,28 +1,22 @@
-package com.gocgod;
+package com.gocgod.ui.user;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.design.widget.Snackbar;
-import android.text.InputType;
 import android.text.SpannableString;
 import android.text.style.UnderlineSpan;
-import android.util.Log;
 import android.widget.EditText;
 
-import com.google.android.gms.auth.api.Auth;
+import com.gocgod.ui.Global;
+import com.gocgod.R;
 import com.mikepenz.iconics.context.IconicsContextWrapper;
-
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import carbon.widget.Button;
-import retrofit2.Retrofit;
 
 public class LoginActivity extends Activity {
 

@@ -13,8 +13,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.gocgod.Global;
-import com.gocgod.ProductDetailActivity;
+import com.gocgod.ui.Global;
+import com.gocgod.ui.product.ProductDetailActivity;
 import com.gocgod.R;
 import com.gocgod.model.ProductData;
 import com.squareup.picasso.Picasso;

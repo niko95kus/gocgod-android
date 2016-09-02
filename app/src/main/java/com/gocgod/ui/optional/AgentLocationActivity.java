@@ -1,16 +1,16 @@
-package com.gocgod;
+package com.gocgod.ui.optional;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
-import android.util.Log;
-import android.view.MenuItem;
 
+import com.gocgod.ApiService;
+import com.gocgod.EndlessRecyclerViewScrollListener;
+import com.gocgod.R;
+import com.gocgod.ServiceGenerator;
 import com.gocgod.adapter.AgentLocationAdapter;
-import com.gocgod.adapter.ProductTestimonialAdapter;
 import com.gocgod.model.AgentLocation;
-import com.gocgod.model.ProductTestimonial;
 import com.gocgod.model.ResponseSuccess;
+import com.gocgod.ui.BaseActivity;
 
 import java.util.ArrayList;
 import java.util.HashMap;

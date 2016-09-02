@@ -1,17 +1,17 @@
-package com.gocgod;
+package com.gocgod.ui.product;
 
-import android.app.Activity;
 import android.os.Bundle;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.view.View;
 
+import com.gocgod.ApiService;
+import com.gocgod.EndlessRecyclerViewScrollListener;
+import com.gocgod.R;
+import com.gocgod.ServiceGenerator;
 import com.gocgod.adapter.ProductTestimonialAdapter;
 import com.gocgod.model.ProductTestimonial;
 import com.gocgod.model.ResponseSuccess;
+import com.gocgod.ui.BaseActivity;
 
 import java.util.ArrayList;
 import java.util.HashMap;

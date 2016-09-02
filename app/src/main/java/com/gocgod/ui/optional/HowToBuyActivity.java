@@ -1,25 +1,24 @@
-package com.gocgod;
+package com.gocgod.ui.optional;
 
-import android.app.Activity;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
 import android.view.View;
 
+import com.gocgod.R;
+import com.gocgod.RecyclerItemClickListener;
 import com.gocgod.adapter.HowToBuyAdapter;
 import com.gocgod.adapter.HowToBuySectionAdapter;
+import com.gocgod.ui.BaseActivity;
+import com.gocgod.ui.Global;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import butterknife.BindView;
 import butterknife.ButterKnife;
 import carbon.widget.RecyclerView;
-import carbon.widget.TextView;
 
 public class HowToBuyActivity extends BaseActivity {
     private List<String> fruits;

@@ -1,18 +1,12 @@
-package com.gocgod;
+package com.gocgod.ui.optional;
 
-import android.annotation.TargetApi;
-import android.app.Activity;
-import android.content.Intent;
-import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.view.MenuItem;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
-import android.webkit.WebViewClient;
+
+import com.gocgod.R;
+import com.gocgod.ui.BaseActivity;
+import com.gocgod.ui.Global;
 
 public class FaqActivity extends BaseActivity {
 

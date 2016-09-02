@@ -22,7 +22,11 @@
     <string name="address">Alamat</string>
     <string name="phonenumber">Nomor Telepon</string>
     <string name="postalcode">Kode Pos</string>
-    <string name=""></string>
+    <string name="birthdaydate">Tanggal Lahir</string>
+    <string name="privacy">Privacy Policy</string>
+    <string name="accept_terms">Setuju syarat &amp; ketentuan</string>
+    <string name="valid_info">Pastikan data yang Anda masukan benar!</string>
+
 
 
     //MENU

@@ -77,6 +77,13 @@
                 android:inputType="number"
                 app:carbon_floatingLabel="true"/>
 
+            <carbon.widget.EditText
+                android:id="@+id/birthday"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/birthdaydate"
+                app:carbon_floatingLabel="true"/>
+
 
             <carbon.widget.EditText
                 android:id="@+id/phone_register"
@@ -121,6 +128,13 @@
                 android:text="@string/register"
                 android:background="@color/colorAccent" />
 
+            <carbon.widget.TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="?attr/carbon_textAppearanceCaption"
+                android:text="@string/valid_info"
+                android:textAlignment="center"/>
+
             <carbon.widget.Button
                 android:id="@+id/privacy_button"
                 android:layout_width="wrap_content"
@@ -131,12 +145,6 @@
                 style="@style/carbon_Button.Flat"
                 android:textColor="@color/carbon_blue_500"
                 />
-
-            <carbon.widget.TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textAppearance="?attr/carbon_textAppearanceCaption"
-                android:text="@string/valid_info"/>
 
         </carbon.widget.LinearLayout>
 

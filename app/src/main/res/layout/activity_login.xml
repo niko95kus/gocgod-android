@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/primary"
-    tools:context="com.gocgod.LoginActivity"
+    tools:context=".ui.user.LoginActivity"
     android:id="@+id/login_layout">
 
     <carbon.widget.ScrollView

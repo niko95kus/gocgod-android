@@ -1,9 +1,11 @@
-package com.gocgod;
+package com.gocgod.ui.optional;
 
 import android.content.Intent;
 import android.net.Uri;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+
+import com.gocgod.ui.Global;
 
 /**
  * Created by Aurel on 24/08/2016.

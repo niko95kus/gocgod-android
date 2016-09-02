@@ -1,4 +1,4 @@
-package com.gocgod;
+package com.gocgod.ui;
 
 import android.app.Activity;
 import android.content.Context;
