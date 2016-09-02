@@ -1,4 +1,4 @@
-package com.gocgod.ui;
+package com.gocgod.ui.transaction;
 
 import android.content.Context;
 import android.graphics.Canvas;

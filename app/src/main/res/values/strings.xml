@@ -14,6 +14,21 @@
     <string name="load_error">Error, koneksi internet bermasalah</string>
     <string name="error">ERROR</string>
 
+    //REGISTER
+    <string name="full_name">Nama Lengkap</string>
+    <string name="choose_province">Pilih Provinsi</string>
+    <string name="choose_city">Pilih Kota</string>
+    <string name="choose_district">Pilih Kecamatan</string>
+    <string name="address">Alamat</string>
+    <string name="phonenumber">Nomor Telepon</string>
+    <string name="postalcode">Kode Pos</string>
+    <string name="birthdaydate">Tanggal Lahir</string>
+    <string name="privacy">Privacy Policy</string>
+    <string name="accept_terms">Setuju syarat &amp; ketentuan</string>
+    <string name="valid_info">Pastikan data yang Anda masukan benar!</string>
+
+
+
     //MENU
     <string name="product">Produk</string>
     <string name="howToBuy">Cara Berbelanja</string>

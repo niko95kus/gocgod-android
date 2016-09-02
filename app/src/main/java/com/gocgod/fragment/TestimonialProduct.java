@@ -6,17 +6,14 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.gocgod.ApiService;
-import com.gocgod.EndlessRecyclerViewScrollListener;
-import com.gocgod.ProductTestimonialActivity;
+import com.gocgod.ui.product.ProductTestimonialActivity;
 import com.gocgod.R;
 import com.gocgod.ServiceGenerator;
-import com.gocgod.adapter.DescriptionTestimonialAdapter;
 import com.gocgod.adapter.ProductTestimonialAdapter;
 import com.gocgod.model.ProductTestimonial;
 import com.gocgod.model.ResponseSuccess;

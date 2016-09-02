@@ -1,10 +1,13 @@
-package com.gocgod;
+package com.gocgod.ui.transaction;
 
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.util.Log;
 import android.view.View;
 
+import com.gocgod.ui.BaseActivity;
+import com.gocgod.ui.Global;
+import com.gocgod.R;
 import com.gocgod.adapter.CartAdapter;
 
 import com.gocgod.cart.Cart;

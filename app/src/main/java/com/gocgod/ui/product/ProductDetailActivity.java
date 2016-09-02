@@ -1,4 +1,4 @@
-package com.gocgod;
+package com.gocgod.ui.product;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -18,18 +18,23 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.gocgod.ApiService;
+import com.gocgod.R;
+import com.gocgod.ServiceGenerator;
+import com.gocgod.WrapContentViewPager;
 import com.gocgod.adapter.DescriptionTestimonialAdapter;
-import com.gocgod.cart.Cart;
 import com.gocgod.cart.CartDataSource;
 import com.gocgod.model.ProductData;
 import com.gocgod.model.ProductTestimonial;
 import com.gocgod.model.ResponseSuccess;
-import com.gocgod.ui.BadgeDrawable;
+import com.gocgod.ui.BaseActivity;
+import com.gocgod.ui.Global;
+import com.gocgod.ui.transaction.BadgeDrawable;
+import com.gocgod.ui.transaction.CartActivity;
 import com.mikepenz.google_material_typeface_library.GoogleMaterial;
 import com.mikepenz.iconics.IconicsDrawable;
 import com.squareup.picasso.Picasso;
 
-import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;

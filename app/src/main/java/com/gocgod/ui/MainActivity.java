@@ -1,4 +1,4 @@
-package com.gocgod;
+package com.gocgod.ui;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -14,13 +14,18 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.gocgod.ApiService;
+import com.gocgod.EndlessRecyclerViewScrollListener;
+import com.gocgod.R;
+import com.gocgod.ServiceGenerator;
 import com.gocgod.adapter.ProductAdapter;
 import com.gocgod.model.ProductData;
 import com.gocgod.model.ResponseSuccess;
+import com.gocgod.ui.transaction.CartActivity;
 import com.mikepenz.google_material_typeface_library.GoogleMaterial;
 import com.mikepenz.iconics.IconicsDrawable;
 
-import com.gocgod.ui.BadgeDrawable;
+import com.gocgod.ui.transaction.BadgeDrawable;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -103,7 +108,7 @@ public class MainActivity extends BaseActivity {
                                 startActivity(new Intent(getApplicationContext(), MainActivity.class));
                             }
                             else if(drawerItem.getIdentifier() == 3){
-                                startActivity(new Intent(getApplicationContext(), com.gocgod.FaqActivity.class));
+                                startActivity(new Intent(getApplicationContext(), com.gocgod.ui.optional.FaqActivity.class));
                             }
                         }
                         return false;
