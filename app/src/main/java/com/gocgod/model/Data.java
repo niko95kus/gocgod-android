@@ -23,6 +23,28 @@ public class Data {
     @Expose
     private AgentLocationPagination agentLocationPagination;
 
+    @SerializedName("login")
+    @Expose
+    private Login login;
+
+    /**
+     *
+     * @return
+     * The login
+     */
+    public Login getLogin() {
+        return login;
+    }
+
+    /**
+     *
+     * @param login
+     * The login
+     */
+    public void setLogin(Login login) {
+        this.login = login;
+    }
+
     /**
      *
      * @return
