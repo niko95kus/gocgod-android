@@ -32,6 +32,29 @@ public class Data {
     @Expose
     private List<LocationCity> city = new ArrayList<LocationCity>();
 
+    @SerializedName("login")
+    @Expose
+    private Login login;
+
+    /**
+     *
+     * @return
+     * The login
+     */
+    public Login getLogin() {
+        return login;
+    }
+
+    /**
+     *
+     * @param login
+     * The login
+     */
+    public void setLogin(Login login) {
+        this.login = login;
+    }
+>>>>>>> master
+
     /**
      *
      * @return

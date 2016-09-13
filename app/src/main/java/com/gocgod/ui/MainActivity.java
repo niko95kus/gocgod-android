@@ -1,18 +1,23 @@
 package com.gocgod.ui;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
 import android.os.AsyncTask;
 
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.gocgod.ApiService;
 import com.gocgod.EndlessRecyclerViewScrollListener;
@@ -22,10 +27,12 @@ import com.gocgod.adapter.ProductAdapter;
 import com.gocgod.model.ProductData;
 import com.gocgod.model.ResponseSuccess;
 import com.gocgod.ui.transaction.CartActivity;
+import com.gocgod.ui.user.LoginActivity;
 import com.mikepenz.google_material_typeface_library.GoogleMaterial;
 import com.mikepenz.iconics.IconicsDrawable;
 
 import com.gocgod.ui.transaction.BadgeDrawable;
+import com.securepreferences.SecurePreferences;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -41,6 +48,12 @@ import retrofit2.Response;
 
 public class MainActivity extends BaseActivity {
     @BindView(R.id.recyclerview) RecyclerView recyclerView;
+    @BindView(R.id.layout)
+    FrameLayout layout;
+    @BindView(R.id.loadingLayout)
+    carbon.widget.LinearLayout loadingLayout;
+    @BindView(R.id.loading)
+    carbon.widget.ProgressBar loading;
 
     List<ProductData> productData = new ArrayList<ProductData>();
     GridLayoutManager manager;
@@ -199,6 +212,9 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
+
+        buildDrawer(null, toolbar);
+
         new FetchCartCountTask().execute();
     }
 
@@ -223,7 +239,7 @@ public class MainActivity extends BaseActivity {
         }
     }
 
-    public void initCollection(int page)
+    public void initCollection(final int page)
     {
         ApiService client = ServiceGenerator.createService(ApiService.class);
         Map<String, String> data = new HashMap<>();
@@ -247,6 +263,8 @@ public class MainActivity extends BaseActivity {
                     //Log.d("SHOP COLLECTION", "Notify :" + curSize + " Item Size: " + productData.size());
                     adapter.notifyItemRangeInserted(curSize, productData.size() - 1);
                     recyclerView.invalidate();
+
+                    loadingLayout.setVisibility(View.GONE);
                 } else {
                     //emptyView.setVisibility(View.VISIBLE);
                     recyclerView.setVisibility(View.GONE);
@@ -255,8 +273,33 @@ public class MainActivity extends BaseActivity {
 
             @Override
             public void onFailure(Call<ResponseSuccess> call, Throwable t) {
-
+                refresh(page);
             }
         });
+    }
+
+    public void refresh(final int page)
+    {
+        loading.setVisibility(View.GONE);
+
+        String message = getResources().getString(R.string.load_error);
+        Snackbar snackbar = Snackbar
+                .make(layout, message, Snackbar.LENGTH_INDEFINITE)
+                .setAction("Ulangi", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        loading.setVisibility(View.VISIBLE);
+                        initCollection(page);
+                    }
+                });
+        // Changing message text color
+        snackbar.setActionTextColor(Color.RED);
+
+        // Changing action button text color
+        View sbView = snackbar.getView();
+        TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
+        textView.setTextColor(Color.WHITE);
+
+        snackbar.show();
     }
 }

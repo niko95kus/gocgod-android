@@ -46,7 +46,7 @@ public class CartActivity extends BaseActivity {
         buildToolbar("Shopping Cart");
         buildDrawer(savedInstanceState, toolbar);
 
-        drawer.getActionBarDrawerToggle().setDrawerIndicatorEnabled(false);
+        sideBar.getActionBarDrawerToggle().setDrawerIndicatorEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         CartDataSource dataSource = new CartDataSource(this);

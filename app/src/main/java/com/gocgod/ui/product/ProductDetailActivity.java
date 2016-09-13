@@ -70,8 +70,12 @@ public class ProductDetailActivity extends BaseActivity {
     carbon.widget.LinearLayout loadingLayout;
     @BindView(R.id.loading)
     carbon.widget.ProgressBar loading;
-    @BindView(R.id.loadingText)
-    carbon.widget.TextView loadingText;
+    @BindView(R.id.btn_add_to_cart)
+    carbon.widget.Button btnAddToCart;
+    @BindView(R.id.increase)
+    carbon.widget.Button btnIncrease;
+    @BindView(R.id.decrease)
+    carbon.widget.Button btnDecrease;
 //    @BindView(R.id.expand_text_view)
 //    ExpandableTextView comment;
 
@@ -103,6 +107,9 @@ public class ProductDetailActivity extends BaseActivity {
         Global.setupUI(findViewById(R.id.layout), ProductDetailActivity.this, quantity);
 
         loadingLayout.setVisibility(View.VISIBLE);
+        btnAddToCart.setEnabled(false);
+        btnDecrease.setEnabled(false);
+        btnIncrease.setEnabled(false);
 
         fragmentManager = getSupportFragmentManager();
 
@@ -112,7 +119,7 @@ public class ProductDetailActivity extends BaseActivity {
         buildToolbar("Detail Produk");
         buildDrawer(savedInstanceState, toolbar);
 
-        drawer.getActionBarDrawerToggle().setDrawerIndicatorEnabled(false);
+        sideBar.getActionBarDrawerToggle().setDrawerIndicatorEnabled(false);
         actionBar.setDisplayHomeAsUpEnabled(true);
 
         //Manimpilasi sedikit untuk set TextColor pada Tab
@@ -304,11 +311,12 @@ public class ProductDetailActivity extends BaseActivity {
 
                 if (total > 0) {
                     productTestimonial.addAll(result.getSuccess().getData().getProductTestimonialPagination().getData());
-
-                    //pager.setAdapter(new DescriptionTestimonialAdapter(getSupportFragmentManager(),deskripsi, productTestimonial, true, productId));
                 }
                 pager.setAdapter(new DescriptionTestimonialAdapter(getSupportFragmentManager(),deskripsi, productTestimonial, productId));
                 loadingLayout.setVisibility(View.GONE);
+                btnAddToCart.setEnabled(true);
+                btnDecrease.setEnabled(true);
+                btnIncrease.setEnabled(true);
             }
 
             @Override
@@ -321,7 +329,7 @@ public class ProductDetailActivity extends BaseActivity {
     public void refresh()
     {
         loading.setVisibility(View.GONE);
-        loadingText.setText(getResources().getString(R.string.error));
+
         String message = getResources().getString(R.string.load_error);
         Snackbar snackbar = Snackbar
                 .make(layout, message, Snackbar.LENGTH_INDEFINITE)
@@ -329,7 +337,6 @@ public class ProductDetailActivity extends BaseActivity {
                     @Override
                     public void onClick(View view) {
                         loading.setVisibility(View.VISIBLE);
-                        loadingText.setText(getResources().getString(R.string.loading));
                         getProductData(String.valueOf(productId));
                     }
                 });

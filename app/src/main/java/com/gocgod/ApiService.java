@@ -14,6 +14,7 @@ import retrofit2.http.GET;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 import retrofit2.http.QueryMap;
 
 /**
@@ -39,4 +40,11 @@ public interface ApiService {
     @FormUrlEncoded
     @POST("city")
     Call<LocationCity> getCity(@Field("provinsi") String provinsi);
+
+    @FormUrlEncoded
+    @POST("login")
+    Call<ResponseSuccess> postLogin(@Field("email_masuk") String email, @Field("password_masuk") String password);
+
+    @GET("logout")
+    Call<ResponseSuccess> logout(@Query("api_token") String apiKey);
 }

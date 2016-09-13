@@ -39,4 +39,11 @@ public class FaqActivity extends BaseActivity {
         // Stop local links and redirects from opening in browser instead of WebView
         webView_faq.setWebViewClient(new FaqWebClient());
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        buildDrawer(null, toolbar);
+    }
 }

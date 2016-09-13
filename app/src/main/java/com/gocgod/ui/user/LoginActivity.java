@@ -4,31 +4,47 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.preference.CheckBoxPreference;
+import android.support.v7.app.AppCompatActivity;
 import android.text.SpannableString;
 import android.text.style.UnderlineSpan;
+import android.util.Log;
+import android.view.View;
 import android.widget.EditText;
 
+import com.gocgod.ApiService;
+import com.gocgod.ServiceGenerator;
+import com.gocgod.model.ResponseSuccess;
 import com.gocgod.ui.Global;
 import com.gocgod.R;
+import com.gocgod.ui.MainActivity;
 import com.mikepenz.iconics.context.IconicsContextWrapper;
+import com.securepreferences.SecurePreferences;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import carbon.widget.Button;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
-public class LoginActivity extends Activity {
+public class LoginActivity extends AppCompatActivity {
 
     @BindView(R.id.email_login)
-    EditText userHp;
+    EditText emailLogin;
     @BindView(R.id.password_login)
-    EditText userPassword;
+    EditText passwordLogin;
     @BindView(R.id.forgot_password_dialog)
     Button forgotPassword;
+    @BindView(R.id.loadingLayout)
+    carbon.widget.LinearLayout loadingLayout;
+    @BindView(R.id.loading)
+    carbon.widget.ProgressBar loading;
 
 //    private MaterialDialog forgotDialog;
-    SharedPreferences mSharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +52,8 @@ public class LoginActivity extends Activity {
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
         Global.setupUI(findViewById(R.id.login_layout), LoginActivity.this, null);
+
+        loadingLayout.setVisibility(View.GONE);
 
         SpannableString content = new SpannableString(getString(R.string.forgot_password));
         content.setSpan(new UnderlineSpan(), 0, content.length(), 0);
@@ -45,6 +63,7 @@ public class LoginActivity extends Activity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+        startActivity(new Intent(getApplicationContext(), MainActivity.class));
         this.finish();
     }
 
@@ -248,6 +267,74 @@ public class LoginActivity extends Activity {
 //        forgotDialog.show();
 //    }
 //
+    @OnClick(R.id.btnLogin)
+    public void login()
+    {
+        loadingLayout.setVisibility(View.VISIBLE);
+
+        String email =  emailLogin.getText().toString();
+        final String password = passwordLogin.getText().toString();
+
+        if(email.equals("") || password.equals(""))
+        {
+            String message = "Email dan password harus diisi";
+            Global.showSnackBar(findViewById(R.id.login_layout), message, Color.WHITE);
+        }
+        else {
+
+            ApiService client = ServiceGenerator.createService(ApiService.class);
+
+            Call<ResponseSuccess> call = client.postLogin(email, password);
+            call.enqueue(new Callback<ResponseSuccess>() {
+                @Override
+                public void onResponse(Call<ResponseSuccess> call, Response<ResponseSuccess> response) {
+                    ResponseSuccess result = response.body();
+
+                    String loginStatus = result.getSuccess().getType();
+
+                    if (loginStatus.equalsIgnoreCase("OK-LOGIN")) {
+                        loading.setVisibility(View.GONE);
+
+                        SharedPreferences userData = new SecurePreferences(LoginActivity.this);
+                        SharedPreferences.Editor editor = userData.edit();
+                        editor.putString("id", result.getSuccess().getData().getLogin().getId().toString());
+                        editor.putString("name", result.getSuccess().getData().getLogin().getName().toString());
+                        editor.putString("address", result.getSuccess().getData().getLogin().getAddress().toString());
+                        editor.putInt("province_id", result.getSuccess().getData().getLogin().getProvinceId());
+                        editor.putInt("city_id", result.getSuccess().getData().getLogin().getCityId());
+                        editor.putInt("district_id", result.getSuccess().getData().getLogin().getDistrictId());
+                        editor.putString("zipcode", result.getSuccess().getData().getLogin().getZipcode().toString());
+                        editor.putString("date_of_birth", result.getSuccess().getData().getLogin().getDateOfBirth().toString());
+                        editor.putString("email", result.getSuccess().getData().getLogin().getEmail().toString());
+                        editor.putString("phone", result.getSuccess().getData().getLogin().getPhone().toString());
+                        editor.putInt("status_user", result.getSuccess().getData().getLogin().getStatusUser());
+                        editor.putInt("balance", result.getSuccess().getData().getLogin().getBalance());
+                        editor.putString("bank_account", result.getSuccess().getData().getLogin().getBankAccount().toString());
+                        editor.putInt("bank_id", result.getSuccess().getData().getLogin().getBankId());
+                        editor.putString("api_token", result.getSuccess().getData().getLogin().getApiToken());
+                        editor.putBoolean("is_login", true);
+                        editor.commit();
+
+                        finish();
+
+                        /*SharedPreferences sharedPref = new SecurePreferences(MainActivity.this);
+                        Boolean login = sharedPref.getBoolean("is_login", false);*/
+                    } else {
+                        loadingLayout.setVisibility(View.GONE);
+
+                        String message = result.getSuccess().getMessage();
+                        Global.showSnackBar(findViewById(R.id.login_layout), message, Color.WHITE);
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<ResponseSuccess> call, Throwable t) {
+
+                }
+            });
+        }
+    }
+
     @OnClick(R.id.register_button)
     public void openRegister() {
         Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
