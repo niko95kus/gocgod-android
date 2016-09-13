@@ -39,35 +39,47 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/full_name"
-                app:carbon_floatingLabel="true"/>
+                app:carbon_floatingLabel="true"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="10dp"/>
 
-            <carbon.widget.Spinner
+            <com.toptoche.searchablespinnerlibrary.SearchableSpinner
                 android:id="@+id/province"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/choose_province"
-                app:carbon_floatingLabel="true"/>
+                app:hintText="@string/choose_province"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"/>
 
-            <carbon.widget.Spinner
+            <com.toptoche.searchablespinnerlibrary.SearchableSpinner
                 android:id="@+id/city"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/choose_city"
-                app:carbon_floatingLabel="true"/>
+                app:hintText="@string/choose_city"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"/>
 
-            <carbon.widget.Spinner
+            <com.toptoche.searchablespinnerlibrary.SearchableSpinner
                 android:id="@+id/district"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/choose_district"
-                app:carbon_floatingLabel="true"/>
+                app:hintText="@string/choose_district"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"/>
 
             <carbon.widget.EditText
                 android:id="@+id/address"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/address"
-                app:carbon_floatingLabel="true"/>
+                android:inputType="textMultiLine"
+                app:carbon_floatingLabel="true"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="10dp"/>
 
             <carbon.widget.EditText
                 android:id="@+id/postalcode"
@@ -75,15 +87,25 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/postalcode"
                 android:inputType="number"
-                app:carbon_floatingLabel="true"/>
+                app:carbon_minCharacters="5"
+                app:carbon_maxCharacters="5"
+                app:carbon_floatingLabel="true"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="10dp"/>
 
             <carbon.widget.EditText
                 android:id="@+id/birthday"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/birthdaydate"
-                app:carbon_floatingLabel="true"/>
-
+                android:inputType="date"
+                app:carbon_floatingLabel="true"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="10dp"/>
 
             <carbon.widget.EditText
                 android:id="@+id/phone_register"
@@ -91,7 +113,11 @@
                 android:layout_height="wrap_content"
                 android:inputType="phone"
                 android:hint="@string/phonenumber"
-                app:carbon_floatingLabel="true"/>
+                app:carbon_floatingLabel="true"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="10dp"/>
 
             <carbon.widget.EditText
                 android:id="@+id/email_register"
@@ -101,7 +127,11 @@
                 android:hint="@string/email"
                 app:carbon_errorMessage="it's not an email"
                 app:carbon_floatingLabel="true"
-                app:carbon_pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$"/>
+                app:carbon_pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="10dp"/>
 
             <carbon.widget.EditText
                 android:id="@+id/password_register"
@@ -110,23 +140,11 @@
                 android:inputType="textPassword"
                 android:hint="@string/password"
                 app:carbon_minCharacters="6"
-                app:carbon_floatingLabel="true" />
-
-            <carbon.widget.CheckBox
-                android:id="@+id/accept_policy"
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:checked="false"
-                android:text="@string/accept_terms"/>
-
-            <carbon.widget.Button
-                android:id="@+id/submit_register"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/activity_vertical_margin"
-                android:layout_marginBottom="@dimen/activity_vertical_margin"
-                android:text="@string/register"
-                android:background="@color/colorAccent" />
+                app:carbon_floatingLabel="true"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="10dp"/>
 
             <carbon.widget.TextView
                 android:layout_width="match_parent"
@@ -145,6 +163,22 @@
                 style="@style/carbon_Button.Flat"
                 android:textColor="@color/carbon_blue_500"
                 />
+
+            <carbon.widget.CheckBox
+                android:id="@+id/accept_policy"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:checked="false"
+                android:text="@string/accept_terms"/>
+
+            <carbon.widget.Button
+                android:id="@+id/submit_register"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:layout_marginBottom="@dimen/activity_vertical_margin"
+                android:text="@string/register"
+                android:background="@color/colorAccent" />
 
         </carbon.widget.LinearLayout>
 

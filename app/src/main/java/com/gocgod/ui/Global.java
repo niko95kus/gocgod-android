@@ -25,7 +25,8 @@ import carbon.widget.EditText;
 public class Global {
     private static SharedPreferences sharedPreferences;
 
-    public static final String IP = "http://192.168.1.8/";
+    public static final String IP = "http://192.168.1.14/";
+
     public static final String imgProduct = Global.IP + "gocgod/public/assets/images/product/";
 
     /*
