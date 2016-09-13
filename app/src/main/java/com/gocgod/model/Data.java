@@ -1,8 +1,13 @@
 package com.gocgod.model;
 
+import android.location.Location;
+
 import javax.annotation.Generated;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Generated("org.jsonschema2pojo")
 public class Data {
@@ -19,9 +24,13 @@ public class Data {
     @Expose
     private ProductTestimonialPagination productTestimonialPagination;
 
-    @SerializedName("agent")
+    @SerializedName("agentLocation")
     @Expose
     private AgentLocationPagination agentLocationPagination;
+
+    @SerializedName("city")
+    @Expose
+    private List<LocationCity> city = new ArrayList<LocationCity>();
 
     /**
      *
@@ -94,6 +103,24 @@ public class Data {
      */
     public void setAgent(AgentLocationPagination agentLocationPagination) {
         this.agentLocationPagination = agentLocationPagination;
+    }
+
+    /**
+     *
+     * @return
+     * The city
+     */
+    public List<LocationCity> getCity() {
+        return city;
+    }
+
+    /**
+     *
+     * @param city
+     * The city
+     */
+    public void setCity(List<LocationCity> city) {
+        this.city = city;
     }
 
 }

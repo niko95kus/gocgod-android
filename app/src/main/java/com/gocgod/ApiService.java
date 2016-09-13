@@ -1,12 +1,18 @@
 package com.gocgod;
 
+import com.gocgod.model.LocationCity;
+import com.gocgod.model.LocationProvinceContactResponse;
+import com.gocgod.model.LocationProvinceContactSuccess;
 import com.gocgod.model.ResponseSuccess;
 
 import java.util.Map;
 
 import retrofit2.Call;
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Headers;
+import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.QueryMap;
 
@@ -26,4 +32,11 @@ public interface ApiService {
 
     @GET("findalocation")
     Call<ResponseSuccess> getAgentLocation(@QueryMap Map<String, String> options);
+
+    @GET("home")
+    Call<LocationProvinceContactResponse> getLocationProvince(@QueryMap Map<String, String> options);
+
+    @FormUrlEncoded
+    @POST("city")
+    Call<LocationCity> getCity(@Field("provinsi") String provinsi);
 }
