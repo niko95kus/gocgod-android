@@ -54,6 +54,13 @@ public class AgentLocationActivity extends BaseActivity {
         initCollection(1);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        buildDrawer(null, toolbar);
+    }
+
     private void initCollection(int page) {
         ApiService client = ServiceGenerator.createService(ApiService.class);
         Map<String, String> data = new HashMap<>();

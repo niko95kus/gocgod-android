@@ -1,13 +1,19 @@
 package com.gocgod.ui;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
+import com.gocgod.ApiService;
+import com.gocgod.ServiceGenerator;
+import com.gocgod.model.ResponseSuccess;
 import com.gocgod.ui.optional.AgentLocationActivity;
 import com.gocgod.ui.optional.FaqActivity;
 import com.gocgod.ui.optional.HowToBuyActivity;
@@ -18,21 +24,32 @@ import com.mikepenz.materialdrawer.AccountHeader;
 import com.mikepenz.materialdrawer.AccountHeaderBuilder;
 import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.DrawerBuilder;
+import com.mikepenz.materialdrawer.model.DividerDrawerItem;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
+import com.mikepenz.materialdrawer.model.ProfileSettingDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
+import com.mikepenz.materialdrawer.model.interfaces.IProfile;
+import com.securepreferences.SecurePreferences;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public abstract class BaseActivity extends AppCompatActivity {
-    protected Drawer drawer = null;
+    private AccountHeader header;
+
+    protected Drawer sideBar = null;
     protected Toolbar toolbar;
     protected ActionBar actionBar;
-
-    Integer mCartCounter = 0;
+    protected SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        sharedPreferences = new SecurePreferences(getApplicationContext());
     }
 
     public void buildToolbar(String title) {
@@ -43,9 +60,10 @@ public abstract class BaseActivity extends AppCompatActivity {
             actionBar.setTitle(title);
     }
 
-
     public void buildDrawer(Bundle savedInstanceState, Toolbar toolbar)
     {
+        Boolean is_login = sharedPreferences.getBoolean("is_login", false);
+
         PrimaryDrawerItem product = new PrimaryDrawerItem().withName(R.string.product)
                 .withIdentifier(1)
                 .withIcon(GoogleMaterial.Icon.gmd_free_breakfast);
@@ -62,23 +80,68 @@ public abstract class BaseActivity extends AppCompatActivity {
                 .withIdentifier(20)
                 .withTextColor(ContextCompat.getColor(this, R.color.colorPrimary))
                 .withIcon(GoogleMaterial.Icon.gmd_lock);
+        PrimaryDrawerItem logout = new PrimaryDrawerItem().withName(R.string.logout_user)
+                .withIdentifier(21)
+                .withTextColor(ContextCompat.getColor(this, R.color.colorPrimary))
+                .withIcon(GoogleMaterial.Icon.gmd_exit_to_app);
 
         //menu header
-        AccountHeader header = new AccountHeaderBuilder()
-                .withActivity(this)
-                .withSavedInstance(savedInstanceState)
-                .withHeaderBackground(R.color.colorPrimary)
-                .withCompactStyle(true)
-                .addProfiles(
-                        new ProfileDrawerItem().withIcon(R.drawable.logo_1).withName("Smiley")
-                                .withEmail("smiley@smiley.com")
-                )
+        if(is_login)
+        {
+            header = new AccountHeaderBuilder()
+                    .withActivity(this)
+                    .withSavedInstance(savedInstanceState)
+                    .withHeaderBackground(R.color.colorPrimary)
+                    .withCompactStyle(true)
+                    .addProfiles(
+                            new ProfileDrawerItem().withIcon(R.drawable.logo_1)
+                                    .withName(sharedPreferences.getString("name", "Customer"))
+                                    .withEmail(sharedPreferences.getString("email", null)),
+                            new ProfileSettingDrawerItem()
+                                    .withName(getResources().getString(R.string.profile))
+                                    .withIcon(GoogleMaterial.Icon.gmd_account_circle)
+                                    .withIdentifier(31),
+                            new ProfileSettingDrawerItem()
+                                    .withName(getResources().getString(R.string.change_password))
+                                    .withIcon(GoogleMaterial.Icon.gmd_vpn_key)
+                                    .withIdentifier(32)
+                    )
+                    .withOnAccountHeaderListener(new AccountHeader.OnAccountHeaderListener() {
+                        @Override
+                        public boolean onProfileChanged(View view, IProfile profile, boolean currentProfile) {
+                            Intent intent = null;
 
-                .withSelectionListEnabledForSingleProfile(false)
-                .build();
+                            if (profile.getIdentifier() == 31) {
+                                //intent = new Intent(MainActivity.this, ProfileActivity.class);
+                            } else if(profile.getIdentifier() == 32){
+                                
+                            }
+
+                            if(intent != null)
+                                startActivity(intent);
+
+                            return false;
+                        }
+                    })
+                    .withSelectionListEnabledForSingleProfile(false)
+                    .build();
+        }
+        else
+        {
+            header = new AccountHeaderBuilder()
+                    .withActivity(this)
+                    .withSavedInstance(savedInstanceState)
+                    .withHeaderBackground(R.color.colorPrimary)
+                    .withCompactStyle(true)
+                    .addProfiles(
+                            new ProfileDrawerItem().withIcon(R.drawable.logo_1)
+                    )
+                    .withSelectionListEnabledForSingleProfile(false)
+                    .build();
+        }
 
         //create the drawer and remember the `Drawer` result object
-        drawer = new DrawerBuilder()
+        DrawerBuilder drawerBuilder = new DrawerBuilder()
                 .withSelectedItem(-1)
                 .withActivity(this)
                 .withToolbar(toolbar)
@@ -115,6 +178,9 @@ public abstract class BaseActivity extends AppCompatActivity {
                             else if(drawerItem.getIdentifier() == 20){
                                 startActivity(new Intent(getApplicationContext(), LoginActivity.class));
                             }
+                            else if(drawerItem.getIdentifier() == 21){
+                                logout();
+                            }
                         }
                         return false;
                     }
@@ -128,8 +194,61 @@ public abstract class BaseActivity extends AppCompatActivity {
                         //return true if we have consumed the event
                         return true;
                     }
-                })
-                .addStickyDrawerItems(login)
-                .build();
+                });
+
+        if(is_login)
+        {
+            drawerBuilder.addStickyDrawerItems(logout);
+        }
+        else
+        {
+            drawerBuilder.addStickyDrawerItems(login);
+        }
+
+        sideBar = drawerBuilder.build();
+    }
+
+    public void logout()
+    {
+        final SecurePreferences sharedPreferences = new SecurePreferences(BaseActivity.this);
+        String apiKey = sharedPreferences.getString("api_token", "");
+
+        //bikin logout ke server
+        ApiService client = ServiceGenerator.createService(ApiService.class);
+
+        //Ambil data produk
+        Call<ResponseSuccess> call = client.logout(apiKey);
+        call.enqueue(new Callback<ResponseSuccess>() {
+            @Override
+            public void onResponse(Call<ResponseSuccess> call, Response<ResponseSuccess> response) {
+                ResponseSuccess result = response.body();
+
+                String logoutStatus = result.getSuccess().getType();
+
+                if(logoutStatus.equalsIgnoreCase("OK-LOG OUT"))
+                {
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.clear();
+                    editor.commit();
+
+                    buildDrawer(null, toolbar);
+                }
+                else if(logoutStatus.equalsIgnoreCase("ERROR-LOG OUT API TOKEN"))
+                {
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.clear();
+                    editor.commit();
+
+                    buildDrawer(null, toolbar);
+
+                    Toast.makeText(getApplicationContext(), result.getSuccess().getMessage(), Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseSuccess> call, Throwable t) {
+
+            }
+        });
     }
 }

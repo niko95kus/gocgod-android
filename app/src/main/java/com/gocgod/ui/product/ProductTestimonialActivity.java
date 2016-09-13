@@ -41,7 +41,7 @@ public class ProductTestimonialActivity extends BaseActivity {
 
         buildToolbar("Ulasan Produk");
         buildDrawer(savedInstanceState, toolbar);
-        drawer.getActionBarDrawerToggle().setDrawerIndicatorEnabled(false);
+        sideBar.getActionBarDrawerToggle().setDrawerIndicatorEnabled(false);
         actionBar.setDisplayHomeAsUpEnabled(true);
 
         if(bundle != null)

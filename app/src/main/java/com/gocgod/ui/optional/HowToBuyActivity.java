@@ -95,4 +95,11 @@ public class HowToBuyActivity extends BaseActivity {
             }
         }));
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        buildDrawer(null, toolbar);
+    }
 }
